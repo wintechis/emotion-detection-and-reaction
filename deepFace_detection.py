@@ -6,6 +6,8 @@ face_cascade_name = cv2.data.haarcascades + 'haarcascade_frontalface_alt.xml'  #
 face_cascade = cv2.CascadeClassifier()  # processing it for our project
 if not face_cascade.load(cv2.samples.findFile(face_cascade_name)):  # fallback event
     print("Error loading xml file")
+model_name = 'Facenet'
+model = DeepFace.build_model(model_name)
 
 video = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # requesting webcam
 
@@ -18,7 +20,7 @@ while video.isOpened():  # check videofeed
     for x, y, w, h in face:
         img = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 1)  # rectangle to show up and detect the face
         try:
-            analyze = DeepFace.analyze(frame, actions=['emotion'])  # analyze class from deepface and ‘frame’ as input
+            analyze = DeepFace.analyze(frame, actions=['emotion'], )  # analyze class from deepface and ‘frame’ as input
             print(analyze['dominant_emotion'], "  ", analyze['emotion'])
         except:
             pass
