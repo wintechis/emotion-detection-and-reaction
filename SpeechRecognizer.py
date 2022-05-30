@@ -7,18 +7,6 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
-emotion_labels = {
-  '01':'neutral',
-  '02':'calm',
-  '03':'happy',
-  '04':'sad',
-  '05':'angry',
-  '06':'fearful',
-  '07':'disgust',
-  '08':'surprised'
-}
-focused_emotion_labels = ['happy', 'sad', 'angry', 'fear']
-
 
 def audio_features(file_title, mfcc, chroma, mel):
     with sf.SoundFile(file_title) as audio_recording:
@@ -53,8 +41,15 @@ def loading_audio_data():
     for file in glob.glob("data//Actor_*//*.wav"):
         file_path = os.path.basename(file)
         emotion = emotion_labels[file_path.split("-")[2]]
+        gender = int(file_path.split("-")[6].replace(".wav", ""))
+        if (gender % 2) == 0:
+            gender = "female"
+            #continue
+        else:
+            gender = "male"
+            continue
         #if emotion not in focused_emotion_labels:
-        #    continue
+         #   continue
         feature = audio_features(file, mfcc=True, chroma=True, mel=True)
         x.append(feature)
         y.append(emotion)
@@ -62,12 +57,25 @@ def loading_audio_data():
     return final_dataset
 
 
-print("Loading data...")
-X_train, X_test, y_train, y_test = loading_audio_data()
-print("Create Model...")
-model = MLPClassifier(hidden_layer_sizes=(200,), learning_rate='adaptive', max_iter=400)
-model.fit(X_train, y_train)
-print("Predict...")
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_true=y_test, y_pred=y_pred)
-print("Accuracy of the Recognizer is: {:.1f}%".format(accuracy*100))
+if __name__ == "__main__":
+    emotion_labels = {
+        '01': 'neutral',
+        '02': 'calm',
+        '03': 'happy',
+        '04': 'sad',
+        '05': 'angry',
+        '06': 'fearful',
+        '07': 'disgust',
+        '08': 'surprised'
+    }
+    focused_emotion_labels = ['happy', 'sad', 'angry', 'fearful']
+    print("Loading data...")
+    X_train, X_test, y_train, y_test = loading_audio_data()
+    accuracies = []
+    print("predict...")
+    for i in range(20):
+        model = MLPClassifier(hidden_layer_sizes=(100,), learning_rate='adaptive', max_iter=400, early_stopping=False)
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        accuracies.append(accuracy_score(y_true=y_test, y_pred=y_pred) * 100)
+    print("Accuracy of the Recognizer is: {:.1f}%".format(np.mean(accuracies)))
