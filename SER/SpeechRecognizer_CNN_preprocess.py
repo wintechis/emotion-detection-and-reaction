@@ -3,7 +3,6 @@ import os, glob
 from sklearn.model_selection import train_test_split
 from keras.utils.np_utils import to_categorical
 import numpy as np
-from tqdm import tqdm
 
 DATA_PATH = "./data_old/"
 
@@ -11,7 +10,8 @@ DATA_PATH = "./data_old/"
 # Input: Folder Path
 # Output: Tuple (Label, Indices of the labels, one-hot encoded labels)
 def get_labels(path=DATA_PATH):
-    labels = ['happy', 'sad', 'angry', 'fearful']
+    #labels = ['happy', 'sad', 'angry', 'fearful']
+    labels = ['neutral', 'calm', 'happy', 'sad', 'angry', 'fearful', 'disgust', 'surprised']
     label_indices = np.arange(0, len(labels))
     return labels, label_indices, to_categorical(label_indices)
 

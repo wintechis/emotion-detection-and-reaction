@@ -8,8 +8,16 @@ buckets = 20
 
 # Save data to array file first
 save_data_to_array(max_len=max_len, n_mfcc=buckets)
-emotion_labels = {'03': 'happy', '04': 'sad', '05': 'angry', '06': 'fearful'}
-labels = ['happy', 'sad', 'angry', 'fearful']
+emotion_labels = {'01': 'neutral',
+        '02': 'calm',
+        '03': 'happy',
+        '04': 'sad',
+        '05': 'angry',
+        '06': 'fearful',
+        '07': 'disgust',
+        '08': 'surprised'}
+#labels = ['happy', 'sad', 'angry', 'fearful']
+labels = ['neutral', 'calm', 'happy', 'sad', 'angry', 'fearful', 'disgust', 'surprised']
 focused_emotion_labels = ['happy', 'sad', 'angry', 'fearful']
 
 # # Loading train set and test set
@@ -18,8 +26,7 @@ X_train, X_test, y_train, y_test = get_train_test()
 # # Feature dimension
 channels = 1
 epochs = 50
-batch_size = 100
-num_classes = 4
+num_classes = 8
 
 X_train = X_train.reshape(X_train.shape[0], buckets, max_len, channels)
 X_test = X_test.reshape(X_test.shape[0], buckets, max_len, channels)
@@ -40,3 +47,5 @@ model.add(Dense(num_classes, activation='softmax'))
 
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=['accuracy'])
 model.fit(X_train, y_train_hot, epochs=epochs, validation_data=(X_test, y_test_hot))
+model.summary()
+model.save("D:\Schmiede\Coding\IIS_Seminar\emotion-detection-and-reaction\SER\SER_model.h5")
