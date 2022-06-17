@@ -2,5 +2,5 @@
 *.wav
 *.zip
 .ipynb_checkpoints/SpeechRecognizer_Jupyter-checkpoint.ipynb
-SER/.ipynb_checkpoints/SpeechRecognizer_Jupyter-checkpoint.ipynb
 *.p
+SER/.ipynb_checkpoints/
