@@ -9,9 +9,9 @@ DATA_PATH = "./data_old/"
 
 # Input: Folder Path
 # Output: Tuple (Label, Indices of the labels, one-hot encoded labels)
-def get_labels(path=DATA_PATH):
-    #labels = ['happy', 'sad', 'angry', 'fearful']
-    labels = ['neutral', 'calm', 'happy', 'sad', 'angry', 'fearful', 'disgust', 'surprised']
+def get_labels():
+    labels = ['happy', 'sad', 'angry', 'fearful']
+    #labels = ['neutral', 'calm', 'happy', 'sad', 'angry', 'fearful', 'disgust', 'surprised']
     label_indices = np.arange(0, len(labels))
     return labels, label_indices, to_categorical(label_indices)
 
@@ -35,10 +35,9 @@ def wav2mfcc(file_path, n_mfcc=20, max_len=11):
     return mfcc
 
 
-def save_data_to_array(path=DATA_PATH, max_len=11, n_mfcc=20):
-    labels, _, _ = get_labels(path)
-    emotion_labels = {'01': 'neutral', '02': 'calm', '03': 'happy', '04': 'sad', '05': 'angry', '06': 'fearful',
-                      '07': 'disgust', '08': 'surprised'}
+def save_data_to_array(max_len=11, n_mfcc=20):
+    #labels, _, _ = get_labels()
+    emotion_labels = {'01': 'happy', '02': 'sad', '03': 'angry', '04': 'fearful'}
 
     for label in emotion_labels:
         # Init mfcc vectors
@@ -55,7 +54,7 @@ def save_data_to_array(path=DATA_PATH, max_len=11, n_mfcc=20):
 
 def get_train_test(split_ratio=0.6, random_state=42):
     # Get available labels
-    labels, indices, _ = get_labels(DATA_PATH)
+    labels, indices, _ = get_labels()
 
     # Getting first arrays
     X = np.load(labels[0] + '.npy')

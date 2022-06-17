@@ -86,9 +86,9 @@ if __name__ == "__main__":
 
     X_train = X_train.reshape(X_train.shape[0], buckets, max_len, channels)
     X_test = X_test.reshape(X_test.shape[0], buckets, max_len, channels)
-    #plt.imshow(X_train[10, :, :, 0])
-    #plt.show()
-    #print(y_train[10])
+    plt.imshow(X_train[12, :, :, 0])
+    plt.show()
+    print(y_train[12])
 
     y_train_hot = to_categorical(y_train)
     y_test_hot = to_categorical(y_test)

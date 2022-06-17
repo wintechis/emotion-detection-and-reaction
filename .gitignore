@@ -4,3 +4,8 @@
 .ipynb_checkpoints/SpeechRecognizer_Jupyter-checkpoint.ipynb
 *.p
 SER/.ipynb_checkpoints/
+SER/1-Initial_CNN_Model.ipynb
+SER/2-Copy1. Data_Augmentation.ipynb
+*.pb
+*.data-00000-of-00001
+*.index
