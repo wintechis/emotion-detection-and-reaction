@@ -9,3 +9,4 @@ SER/2-Copy1. Data_Augmentation.ipynb
 *.pb
 *.data-00000-of-00001
 *.index
+*.pyc
