@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response
 import threading
-from recognizer import *
+from audio_recognizer import *
 
 app = Flask(__name__)
 video = cv2.VideoCapture(0)
@@ -43,13 +43,13 @@ def recognizer():
     start process1
     start process2
     
-    '''
+    
     while True:
         for time <= 3 sekunden
             await get video predictions
 
         await get audio predicitons
-
+    '''
 
 
     return render_template('recognizer.html')
