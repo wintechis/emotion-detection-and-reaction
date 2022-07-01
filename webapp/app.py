@@ -1,28 +1,31 @@
 from flask import Flask, render_template, Response
+from turbo_flask import Turbo
+import multiprocessing
 import threading
-from audio_recognizer import *
+import math
+import audio_recognizer
+import video_recognizer
+import time
 
+queue = multiprocessing.Queue()
 app = Flask(__name__)
-video = cv2.VideoCapture(0)
+turbo=Turbo(app)
 
-
-def gen(video):
-    while True:
-        success, image = video.read()
-        frame_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        frame_gray = cv2.equalizeHist(frame_gray)
-
-        ret, jpeg = cv2.imencode('.jpg', image)
-
-        frame = jpeg.tobytes()
-
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+@app.before_first_request
+def before_first_request():
+    threading.Thread(target=update_load).start()
 
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('index.html')
+
+
+def update_load():
+    with app.app_context():
+        while True:
+            time.sleep(5)
+            turbo.push(turbo.update(render_template('loadavg.html'), 'load'))
 
 
 @app.route('/about')
@@ -32,27 +35,27 @@ def about():
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(video), mimetype='multipart/x-mixed-replace; boundary=frame')   # gets called from recognizer.html
+    return
 
 
-@app.route('/recognizer')
-def recognizer():
-    # return emotions and post them to html
-    global video
-    '''
-    start process1
-    start process2
-    
-    
-    while True:
-        for time <= 3 sekunden
-            await get video predictions
-
-        await get audio predicitons
-    '''
+def analyze_video():
+    queue.put({"video": str(time.strftime("%H:%M:%S"))})
 
 
-    return render_template('recognizer.html')
+def analyze_audio():
+    queue.put({"audio": str(time.strftime("%H:%M:%S"))})
+
+
+@app.context_processor
+def inject_load():
+    # return emotions and post them to jinja
+
+    proc1 = multiprocessing.Process(target=analyze_audio())
+    proc2 = multiprocessing.Process(target=analyze_video())
+    proc1.start()
+    proc2.start()
+
+    return {'Test': queue.get()}
 
 
 if __name__ == '__main__':
