@@ -1,15 +1,16 @@
 from flask import Flask, render_template, Response
 from turbo_flask import Turbo
-import multiprocessing
 import threading
 import math
 import audio_recognizer
 import video_recognizer
 import time
+import concurrent.futures
 
-queue = multiprocessing.Queue()
+_pool = concurrent.futures.ThreadPoolExecutor()
 app = Flask(__name__)
-turbo=Turbo(app)
+turbo = Turbo(app)
+
 
 @app.before_first_request
 def before_first_request():
@@ -24,7 +25,7 @@ def index():
 def update_load():
     with app.app_context():
         while True:
-            time.sleep(5)
+            time.sleep(1)
             turbo.push(turbo.update(render_template('loadavg.html'), 'load'))
 
 
@@ -39,23 +40,24 @@ def video_feed():
 
 
 def analyze_video():
-    queue.put({"video": str(time.strftime("%H:%M:%S"))})
+    return "Video update " + str(time.strftime("%H:%M:%S"))
 
 
 def analyze_audio():
-    queue.put({"audio": str(time.strftime("%H:%M:%S"))})
+    return "Audio update " + str(time.strftime("%H:%M:%S"))
 
 
 @app.context_processor
 def inject_load():
     # return emotions and post them to jinja
+    items = {"video": "", "audio": ""}
+    p1 = _pool.submit(analyze_audio)
+    p2 = _pool.submit(analyze_video)
 
-    proc1 = multiprocessing.Process(target=analyze_audio())
-    proc2 = multiprocessing.Process(target=analyze_video())
-    proc1.start()
-    proc2.start()
+    items["audio"] = p1.result()
+    items["video"] = p2.result()
 
-    return {'Test': queue.get()}
+    return items
 
 
 if __name__ == '__main__':
