@@ -9,7 +9,7 @@ import wave
 import time
 
 scaler = StandardScaler()
-#model_audio = keras.models.load_model('models/audio_model_small.h5')
+model_audio = keras.models.load_model('models/audio_model_small.h5')
 
 
 # ToDo include following small functions in extract_audio
