@@ -33,6 +33,10 @@ def update_load():
 def about():
     return render_template('about.html')
 
+@app.route('/recognizer')
+def recognizer():
+    return render_template('recognizer.html')
+
 
 @app.route('/video_feed')
 def video_feed():
@@ -51,6 +55,8 @@ def analyze_audio():
 def inject_load():
     # return emotions and post them to jinja
     items = {"video": "", "audio": ""}
+    # webcam starten
+
     p1 = _pool.submit(analyze_audio)
     p2 = _pool.submit(analyze_video)
 
