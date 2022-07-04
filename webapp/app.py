@@ -3,7 +3,6 @@ from turbo_flask import Turbo
 import threading
 import math
 import audio_recognizer
-import video_recognizer
 import time
 import concurrent.futures
 
@@ -19,7 +18,7 @@ def before_first_request():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('recognizer.html')
 
 
 def update_load():
@@ -55,7 +54,7 @@ def analyze_audio():
 def inject_load():
     # return emotions and post them to jinja
     items = {"video": "", "audio": ""}
-    # webcam starten
+
 
     p1 = _pool.submit(analyze_audio)
     p2 = _pool.submit(analyze_video)
