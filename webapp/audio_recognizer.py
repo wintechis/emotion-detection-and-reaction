@@ -8,8 +8,8 @@ import pyaudio
 import wave
 import time
 
-scaler = StandardScaler()
-scaler.set_params({'copy': True, 'with_mean': True, 'with_std': True})
+#scaler = StandardScaler()
+#scaler.set_params(copy=True, with_mean=True, with_std=True)
 model_audio = keras.models.load_model('models/audio_model_small.h5')
 
 
@@ -120,7 +120,7 @@ def analyze_audio():
     wavefile.writeframes(b''.join(frames))
     wavefile.close()
 
-    x_audio = get_audio_features(wavefile)
+    x_audio = get_audio_features(wav_output_filename)
     x_audio = scaler.transform(x_audio)
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)

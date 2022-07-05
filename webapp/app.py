@@ -47,7 +47,7 @@ def analyze_video():
 
 
 def analyze_audio():
-    return "Audio update " + str(time.strftime("%H:%M:%S"))
+    return audio_recognizer.analyze_audio()
 
 
 @app.context_processor
