@@ -9,6 +9,7 @@ import wave
 import time
 
 scaler = StandardScaler()
+scaler.set_params({'copy': True, 'with_mean': True, 'with_std': True})
 model_audio = keras.models.load_model('models/audio_model_small.h5')
 
 
@@ -25,7 +26,7 @@ def stretch(data, rate=0.8):
 
 
 def shift(data):
-    shift_range = int(np.random.uniform(low=-5, high = 5)*1000)
+    shift_range = int(np.random.uniform(low=-5, high=5)*1000)
     return np.roll(data, shift_range)
 
 
