@@ -3,7 +3,6 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import librosa
-from sklearn.preprocessing import StandardScaler
 import pyaudio
 import wave
 import time
@@ -83,7 +82,6 @@ def get_audio_features(path):
 
 
 # driver function: returns prediction
-
 def analyze_audio():
     samp_rate = 44100  # 44.1kHz sampling rate
     chunk = 4096  # 2^12 samples for buffer

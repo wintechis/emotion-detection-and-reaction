@@ -1,11 +1,9 @@
 from flask import Flask, render_template, Response
 from turbo_flask import Turbo
 import threading
-import math
 import audio_recognizer
 import time
 import concurrent.futures
-
 import video_recognizer
 
 _pool = concurrent.futures.ThreadPoolExecutor()
