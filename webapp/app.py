@@ -6,6 +6,8 @@ import audio_recognizer
 import time
 import concurrent.futures
 
+import video_recognizer
+
 _pool = concurrent.futures.ThreadPoolExecutor()
 app = Flask(__name__)
 turbo = Turbo(app)
@@ -58,8 +60,9 @@ def inject_load():
 
     p1 = _pool.submit(analyze_audio)
     p2 = _pool.submit(analyze_video)
+    #p2 = _pool.submit(video_recognizer.analyze_video())
 
-    items["audio"] = p1.result()
+    items["audio"] = p1.result()[0]
     items["video"] = p2.result()
 
     return items

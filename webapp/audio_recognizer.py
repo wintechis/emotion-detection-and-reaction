@@ -8,9 +8,7 @@ import pyaudio
 import wave
 import time
 
-#scaler = StandardScaler()
-#scaler.set_params(copy=True, with_mean=True, with_std=True)
-model_audio = keras.models.load_model('models/audio_model_small.h5')
+model_audio = keras.models.load_model('models/SER_model.h5')
 
 
 # ToDo include following small functions in extract_audio
@@ -95,11 +93,11 @@ def analyze_audio():
 
     # check input devices
     audio = pyaudio.PyAudio()
-    info = audio.get_host_api_info_by_index(0)
-    numdevices = info.get('deviceCount')
-    for i in range(0, numdevices):
-        if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
-            print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
+    #info = audio.get_host_api_info_by_index(0)
+    #numdevices = info.get('deviceCount')
+    #for i in range(0, numdevices):
+    #    if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
+    #        print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
 
     ###################
     # GET AUDIO STREAM
@@ -121,7 +119,6 @@ def analyze_audio():
     wavefile.close()
 
     x_audio = get_audio_features(wav_output_filename)
-    x_audio = scaler.transform(x_audio)
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
 
