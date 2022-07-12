@@ -120,4 +120,5 @@ def analyze_audio():
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
 
+
     return pred

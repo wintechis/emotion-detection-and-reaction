@@ -25,7 +25,7 @@ def update_load():
     with app.app_context():
         while True:
             time.sleep(1)
-            turbo.push(turbo.update(render_template('loadavg.html'), 'load'))
+            turbo.push(turbo.update(render_template('audio.html'), 'load'))
 
 
 @app.route('/about')
@@ -64,7 +64,7 @@ def inject_load():
     #p2 = _pool.submit(analyze_video)
     #p2 = _pool.submit(video_recognizer.analyze_video())
 
-    #items["audio"] = p1.result()[0]
+    items["audio"] = audio_recognizer.analyze_audio()[0]
     #items["video"] = p2.result()
 
     return items
