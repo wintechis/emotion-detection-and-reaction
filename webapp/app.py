@@ -1,14 +1,26 @@
 from flask import Flask, render_template, Response
+import cv2
+import numpy as np
+from tensorflow.keras.models import model_from_json
+from tensorflow.keras.preprocessing import image
 from turbo_flask import Turbo
 import threading
 import audio_recognizer
 import time
 import concurrent.futures
-#import video_recognizer
+import keras
+
+import video_recognizer
 
 _pool = concurrent.futures.ThreadPoolExecutor()
 app = Flask(__name__)
 turbo = Turbo(app)
+
+#load model
+# model = model_from_json(open("models/fer.json", "r").read())
+#
+# #load weights
+# model.load_weights('models/fer.h5')
 
 
 @app.before_first_request
@@ -27,6 +39,9 @@ def update_load():
             time.sleep(1)
             turbo.push(turbo.update(render_template('audio.html'), 'load'))
 
+@app.route('/video_feed')
+def video_feed():
+    return Response(video_recognizer.gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/about')
 def about():
@@ -40,10 +55,6 @@ def audio():
 def Video():
     return render_template('Video.html')
 
-
-@app.route('/video_feed')
-def video_feed():
-    return
 
 
 def analyze_video():
