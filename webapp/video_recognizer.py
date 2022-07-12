@@ -2,7 +2,6 @@ from tensorflow import keras
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-<<<<<<< Updated upstream
 import time
 
 
@@ -60,7 +59,7 @@ while True:
                 Pred_array.append(Predictions)
                 print(Pred_array)
 
-=======
+
 import multiprocessing
 
 
@@ -175,7 +174,3 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
-
-
-
->>>>>>> Stashed changes

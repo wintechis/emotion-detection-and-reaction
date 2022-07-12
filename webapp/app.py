@@ -4,7 +4,7 @@ import threading
 import audio_recognizer
 import time
 import concurrent.futures
-import video_recognizer
+#import video_recognizer
 
 _pool = concurrent.futures.ThreadPoolExecutor()
 app = Flask(__name__)
@@ -18,7 +18,7 @@ def before_first_request():
 
 @app.route('/')
 def index():
-    return render_template('recognizer.html')
+    return render_template('index.html')
 
 
 def update_load():
@@ -32,9 +32,13 @@ def update_load():
 def about():
     return render_template('about.html')
 
-@app.route('/recognizer')
-def recognizer():
-    return render_template('recognizer.html')
+@app.route('/audio')
+def audio():
+    return render_template('audio.html')
+
+@app.route('/Video')
+def Video():
+    return render_template('Video.html')
 
 
 @app.route('/video_feed')
@@ -56,12 +60,12 @@ def inject_load():
     items = {"video": "", "audio": ""}
 
 
-    p1 = _pool.submit(analyze_audio)
-    p2 = _pool.submit(analyze_video)
+    #p1 = _pool.submit(analyze_audio)
+    #p2 = _pool.submit(analyze_video)
     #p2 = _pool.submit(video_recognizer.analyze_video())
 
-    items["audio"] = p1.result()[0]
-    items["video"] = p2.result()
+    #items["audio"] = p1.result()[0]
+    #items["video"] = p2.result()
 
     return items
 
