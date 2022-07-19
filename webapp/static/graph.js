@@ -9,7 +9,7 @@ function requestData() {
         url: '/live-data',
         success: function(point) {
             var series = chart.series[0];
-            chart.series[0].setData(point, false);
+            chart.series[0].setData(point, true);
             // call it again after three seconds
             setTimeout(requestData, 3000);
         },
