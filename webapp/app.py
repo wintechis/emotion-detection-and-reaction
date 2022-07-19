@@ -1,13 +1,15 @@
-from flask import Flask, render_template, Response
-import cv2
-import numpy as np
-from tensorflow.keras.models import model_from_json
-from tensorflow.keras.preprocessing import image
+from flask import Flask, render_template, Response, make_response
+#import cv2
+#import numpy as np
+#from tensorflow.keras.models import model_from_json
+#from tensorflow.keras.preprocessing import image
 from turbo_flask import Turbo
 import threading
 import audio_recognizer
-import time
+from time import time
 import concurrent.futures
+import json
+from random import random
 import keras
 
 import video_recognizer
@@ -23,9 +25,9 @@ turbo = Turbo(app)
 # model.load_weights('models/fer.h5')
 
 
-@app.before_first_request
-def before_first_request():
-    threading.Thread(target=update_load).start()
+#@app.before_first_request
+#def before_first_request():
+#    threading.Thread(target=update_load).start()
 
 
 @app.route('/')
@@ -33,11 +35,11 @@ def index():
     return render_template('index.html')
 
 
-def update_load():
-    with app.app_context():
-        while True:
-            time.sleep(1)
-            turbo.push(turbo.update(render_template('audio.html'), 'load'))
+#def update_load():
+#    with app.app_context():
+#        while True:
+#            time.sleep(1)
+#            turbo.push(turbo.update(render_template('audio.html'), 'load'))
 
 @app.route('/video_feed')
 def video_feed():
@@ -49,7 +51,7 @@ def about():
 
 @app.route('/audio')
 def audio():
-    return render_template('audio.html')
+    return render_template('audio.html', data='test')
 
 @app.route('/Video')
 def Video():
@@ -65,6 +67,15 @@ def analyze_audio():
     return audio_recognizer.analyze_audio()
 
 
+@app.route('/live-data')
+def live_data():
+    # Create a PHP array and echo it as JSON
+    data = audio_recognizer.analyze_audio()
+    response = make_response(json.dumps(data))
+    response.content_type = 'application/json'
+    return response
+
+
 @app.context_processor
 def inject_load():
     # return emotions and post them to jinja
@@ -75,7 +86,7 @@ def inject_load():
     #p2 = _pool.submit(analyze_video)
     #p2 = _pool.submit(video_recognizer.analyze_video())
 
-    items["audio"] = audio_recognizer.analyze_audio()[0]
+    items["audio"] = audio_recognizer.analyze_audio()[2]
     #items["video"] = p2.result()
 
     return items

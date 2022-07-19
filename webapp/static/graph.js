@@ -1,23 +1,55 @@
-Highcharts.chart('container', {
-  data: {
-    table: 'datatable'
-  },
-  chart: {
-    type: 'column'
-  },
-  title: {
-    text: 'Data extracted from a HTML table in the page'
-  },
-  yAxis: {
-    allowDecimals: false,
-    title: {
-      text: 'Units'
-    }
-  },
-  tooltip: {
-    formatter: function () {
-      return '<b>' + this.series.name + '</b><br/>' +
-        this.point.y + ' ' + this.point.name.toLowerCase();
-    }
-  }
+var chart;
+
+/**
+ * Request data from the server, add it to the graph and set a timeout
+ * to request again
+ */
+function requestData() {
+    $.ajax({
+        url: '/live-data',
+        success: function(point) {
+            var series = chart.series[0];
+            chart.series[0].setData(point, false);
+            // call it again after three seconds
+            setTimeout(requestData, 3000);
+        },
+        cache: false
+    });
+}
+
+$(document).ready(function () {
+    chart = new Highcharts.Chart({
+        chart: {
+            type: 'column',
+            renderTo: 'data-container',
+            events: {
+                load: requestData
+            }
+        },
+        title: {
+            text: 'Audio Recognition'
+        },
+        xAxis: {
+            categories: ['happy', 'sad', 'fear', 'angry'],
+            labels: {
+                x: -10
+            }
+        },
+        yAxis: {
+            min: 0,
+            gridLineWidth: 0,
+            minorGridLineWidth: 0,
+
+            title: {
+                text: 'Percentage',
+                y: 10
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        series: [{
+             data: requestData
+         }]
+    });
 });
