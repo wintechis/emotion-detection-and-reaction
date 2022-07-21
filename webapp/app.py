@@ -11,6 +11,7 @@ import concurrent.futures
 import json
 from random import random
 import keras
+from promise import Promise
 
 import video_recognizer
 
@@ -30,6 +31,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/test')
+def test():
+    return "TEST"
 
 @app.route('/video_feed')
 def video_feed():

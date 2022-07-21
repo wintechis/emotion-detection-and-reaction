@@ -8,6 +8,7 @@ import audio_recognizer
 import time
 import concurrent.futures
 import keras
+global predictions
 
 model = keras.models.load_model('models/model_8_50epoch80_CK48dataset.h5')
 
@@ -16,6 +17,9 @@ try:
 except Exception:
     st.write("Error loading cascade classifiers")
 camera = cv2.VideoCapture(0)
+
+def sendPredictions(predictions):
+    return predictions
 
 def gen_frames():  # generate frame by frame from camera
     while True:
@@ -51,6 +55,8 @@ def gen_frames():  # generate frame by frame from camera
                 print(final_image.shape)
 
                 predictions = model.predict(final_image)
+
+                sendPredictions(predictions)
 
                 # find max indexed array
 
