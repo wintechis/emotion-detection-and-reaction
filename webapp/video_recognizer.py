@@ -2,11 +2,6 @@ import cv2
 import numpy as np
 from tensorflow.keras.models import model_from_json
 from tensorflow.keras.preprocessing import image
-from turbo_flask import Turbo
-import threading
-import audio_recognizer
-import time
-import concurrent.futures
 import keras
 
 model = keras.models.load_model('models/model_8_50epoch80_CK48dataset.h5')
