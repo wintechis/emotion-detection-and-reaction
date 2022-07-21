@@ -14,9 +14,8 @@ import keras
 
 import video_recognizer
 
-_pool = concurrent.futures.ThreadPoolExecutor()
 app = Flask(__name__)
-turbo = Turbo(app)
+
 
 #load model
 # model = model_from_json(open("models/fer.json", "r").read())
@@ -25,21 +24,12 @@ turbo = Turbo(app)
 # model.load_weights('models/fer.h5')
 
 
-#@app.before_first_request
-#def before_first_request():
-#    threading.Thread(target=update_load).start()
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
-#def update_load():
-#    with app.app_context():
-#        while True:
-#            time.sleep(1)
-#            turbo.push(turbo.update(render_template('audio.html'), 'load'))
 
 @app.route('/video_feed')
 def video_feed():
@@ -59,14 +49,6 @@ def Video():
 
 
 
-def analyze_video():
-    return "Video update " + str(time.strftime("%H:%M:%S"))
-
-
-def analyze_audio():
-    return audio_recognizer.analyze_audio()
-
-
 @app.route('/live-data')
 def live_data():
     # Create a PHP array and echo it as JSON
@@ -76,20 +58,6 @@ def live_data():
     return response
 
 
-@app.context_processor
-def inject_load():
-    # return emotions and post them to jinja
-    items = {"video": "", "audio": ""}
-
-
-    #p1 = _pool.submit(analyze_audio)
-    #p2 = _pool.submit(analyze_video)
-    #p2 = _pool.submit(video_recognizer.analyze_video())
-
-    items["audio"] = audio_recognizer.analyze_audio()[2]
-    #items["video"] = p2.result()
-
-    return items
 
 
 if __name__ == '__main__':

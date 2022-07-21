@@ -30,7 +30,7 @@ $(document).ready(function () {
             text: 'Audio Recognition'
         },
         xAxis: {
-            categories: ['happy', 'sad', 'fear', 'angry'],
+            categories: ['angry', 'fear', 'happy', 'sad'],
             labels: {
                 x: -10
             }
