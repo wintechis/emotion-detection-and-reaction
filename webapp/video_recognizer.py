@@ -1,3 +1,6 @@
+#   Python file containing the processing logic for FER analysis tasks
+#   outputs a videostream with informational layers
+
 import cv2
 import numpy as np
 from tensorflow.keras.models import model_from_json

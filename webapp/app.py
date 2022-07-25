@@ -1,3 +1,10 @@
+#
+#   Main function call for the flask based web application
+#
+#   developed by Ronja Rehm and Jan Kühlborn
+#
+###################################################
+
 from flask import Flask, render_template, Response, make_response
 import audio_recognizer
 import json
@@ -9,7 +16,6 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/video_feed')
 def video_feed():
@@ -27,17 +33,13 @@ def audio():
 def Video():
     return render_template('Video.html')
 
-
-
 @app.route('/live-data')
 def live_data():
     # Create a PHP array and echo it as JSON
     data = audio_recognizer.analyze_audio()
-
     response = make_response(json.dumps(data))
     response.content_type = 'application/json'
     return response
-
 
 
 if __name__ == '__main__':
