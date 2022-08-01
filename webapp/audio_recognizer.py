@@ -1,11 +1,11 @@
+#   Python file containing the processing logic for SER analysis tasks
+#   outputs an array of class probabilities
+
 from tensorflow import keras
-import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 import librosa
 import pyaudio
 import wave
-import time
 
 model_audio = keras.models.load_model('models/SER_model.h5')
 
@@ -87,7 +87,7 @@ def analyze_audio():
     chunk = 4096  # 2^12 samples for buffer
     record_secs = 3  # seconds to record
     dev_index = 1  # device index found by p.get_device_info_by_index(ii)
-    wav_output_filename = 'test1.wav'  # name of .wav file
+    wav_output_filename = 'temp_audio.wav'  # name of .wav file
 
     # check input devices
     audio = pyaudio.PyAudio()

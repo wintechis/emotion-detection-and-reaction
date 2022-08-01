@@ -14,8 +14,6 @@ import codecs
 
 import keras
 
-global predictions
-
 model = keras.models.load_model('models/model_8_50epoch80_CK48dataset.h5')
 
 try:
@@ -23,11 +21,6 @@ try:
 except Exception:
     st.write("Error loading cascade classifiers")
 camera = cv2.VideoCapture(0)
-
-
-def sendPredictions(predictions):
-    return predictions
-
 
 def gen_frames():  # generate frame by frame from camera
     while True:
