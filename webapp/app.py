@@ -41,6 +41,15 @@ def live_data():
     response.content_type = 'application/json'
     return response
 
+@app.route('/live-data_video')
+def live_data_video():
+    # Create a PHP array and echo it as JSON
+    f = open('video_prediction.json')
+    data = json.load(f)
+    response = make_response(json.dumps(data))
+    response.content_type = 'application/json'
+    return response
+
 
 @app.route('/diagrams')
 def diagrams():
