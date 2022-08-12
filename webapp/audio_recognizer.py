@@ -64,7 +64,13 @@ def extract_audio_features(data, sample_rate):
     plt.title('Spectrogram')
     plt.tight_layout()
     plt.savefig('diagrams\\MelSpec.png')
+    plt.clf()
     #plt.show()
+    plt.figure(figsize=(8, 4))
+    librosa.display.waveshow(data, sr=sample_rate)
+    plt.title('Waveplot')
+    plt.savefig('diagrams\\Waveplot.png')
+    plt.clf()
     return result
 
 
@@ -129,5 +135,5 @@ def analyze_audio():
     x_audio = get_audio_features(wav_output_filename)
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
-
+    print(pred[0].tolist())
     return pred[0].tolist()

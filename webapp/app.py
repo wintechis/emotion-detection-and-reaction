@@ -46,6 +46,10 @@ def live_data():
 def diagrams():
     return send_file('diagrams\\MelSpec.png', mimetype='image/png')
 
+@app.route('/plot')
+def plot():
+    return send_file('diagrams\\Waveplot.png', mimetype='image/png')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
