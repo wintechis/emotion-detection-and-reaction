@@ -1,6 +1,5 @@
 import json
 import time
-
 import cv2
 import numpy as np
 from tensorflow.keras.models import model_from_json
@@ -92,5 +91,5 @@ def gen_frames():  # generate frame by frame from camera
 
             frame = buffer.tobytes()
 
-            yield (
-                    b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+            # concat frame one by one and show result
+            yield b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'

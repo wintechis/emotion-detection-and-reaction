@@ -1,13 +1,15 @@
 #   Python file containing the processing logic for SER analysis tasks
-#   outputs an array of class probabilities
+#   returns an array of class probabilities
 
 from tensorflow import keras
 import numpy as np
 import librosa
+import librosa.display
 import pyaudio
 import wave
+import matplotlib.pyplot as plt
 
-model_audio = keras.models.load_model('models/SER_model.h5')
+model_audio = keras.models.load_model('models/SER_model_without_CREMA.h5')
 
 
 # ToDo include following small functions in extract_audio
@@ -18,8 +20,8 @@ def noise(data):
     return data
 
 
-def stretch(data, rate=0.8):
-    return librosa.effects.time_stretch(data, rate)
+def stretch(data):
+    return librosa.effects.time_stretch(data, rate=0.8)
 
 
 def shift(data):
@@ -27,12 +29,11 @@ def shift(data):
     return np.roll(data, shift_range)
 
 
-def pitch(data, sampling_rate, pitch_factor=0.7):
-    return librosa.effects.pitch_shift(data, sampling_rate, pitch_factor)
+def pitch(data, sampling_rate):
+    return librosa.effects.pitch_shift(data, sampling_rate, n_steps=0.7)
 
 
 # main functions
-
 def extract_audio_features(data, sample_rate):
     # ZCR
     result = np.array([])
@@ -55,7 +56,15 @@ def extract_audio_features(data, sample_rate):
     # MelSpectogram
     mel = np.mean(librosa.feature.melspectrogram(y=data, sr=sample_rate).T, axis=0)
     result = np.hstack((result, mel))  # stacking horizontally
-
+    spec = np.abs(librosa.stft(data, hop_length=512))
+    spec = librosa.amplitude_to_db(spec, ref=np.max)
+    librosa.display.specshow(spec, sr=sample_rate, x_axis='time', y_axis='log')
+    plt.colorbar(format='%+2.0f dB')
+    plt.clim(-80, 0)
+    plt.title('Spectrogram')
+    plt.tight_layout()
+    plt.savefig('diagrams\\MelSpec.png')
+    #plt.show()
     return result
 
 
@@ -83,6 +92,7 @@ def get_audio_features(path):
 
 # driver function: returns prediction
 def analyze_audio():
+#while True:
     samp_rate = 44100  # 44.1kHz sampling rate
     chunk = 4096  # 2^12 samples for buffer
     record_secs = 3  # seconds to record

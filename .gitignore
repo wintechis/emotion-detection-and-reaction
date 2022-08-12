@@ -11,3 +11,5 @@ SER/2-Copy1. Data_Augmentation.ipynb
 *.index
 *.pyc
 SER/data/CREMA-D/
+SER/data/
+.idea
