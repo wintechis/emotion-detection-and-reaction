@@ -51,12 +51,12 @@ def live_data_video():
     return response
 
 
-@app.route('/diagrams')
-def diagrams():
+@app.route('/spectrogram')
+def spectrogram():
     return send_file('diagrams\\MelSpec.png', mimetype='image/png')
 
-@app.route('/plot')
-def plot():
+@app.route('/waveplot')
+def waveplot():
     return send_file('diagrams\\Waveplot.png', mimetype='image/png')
 
 
