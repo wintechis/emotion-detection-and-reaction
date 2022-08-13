@@ -50,6 +50,15 @@ def live_data_video():
     response.content_type = 'application/json'
     return response
 
+@app.route('/live-data_multi')
+def live_data_multi():
+    # Create a PHP array and echo it as JSON
+    f = open('multi_prediction.json')
+    data = json.load(f)
+    response = make_response(json.dumps(data))
+    response.content_type = 'application/json'
+    return response
+
 
 @app.route('/spectrogram')
 def spectrogram():
