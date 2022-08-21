@@ -11,7 +11,6 @@ import numpy
 
 import codecs
 
-
 import keras
 
 model = keras.models.load_model('models/model_8_50epoch80_CK48dataset.h5')
@@ -21,6 +20,23 @@ try:
 except Exception:
     st.write("Error loading cascade classifiers")
 camera = cv2.VideoCapture(0)
+
+
+# def writeVid(pred_json):
+#     s = '[{' \
+#         '"name": "Video",' \
+#         '"data": [' \
+#             '{"name": "Angry",' \
+#             '"value":' + round(pred_json[0]) + '},' +\
+#             '{"name": "Fear",' \
+#             '"value":' + round(pred_json[1]) + '},' +\
+#             '{"name": "Happy",' \
+#             '"value":' + round(pred_json[2]) + '},' +\
+#             '{"name": "Sad",' \
+#             '"value":' + round(pred_json[3]) + '}]},'
+#
+#     file.write(s)
+
 
 def gen_frames():  # generate frame by frame from camera
     while True:
@@ -36,7 +52,7 @@ def gen_frames():  # generate frame by frame from camera
                 faces_detected = face_haar_cascade.detectMultiScale(gray_img, 1.1, 4)
 
                 for (x, y, w, h) in faces_detected:
-                    print('WORKING')
+                    # print('WORKING')
                     frame = np.array(frame)
                     cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), thickness=7)
                     roi_gray = gray_img[y:y + w, x:x + h]  # cropping region of interest i.e. face area from  image
@@ -59,10 +75,14 @@ def gen_frames():  # generate frame by frame from camera
                         predictions = model.predict(final_image)
                         pred_list = predictions.tolist()
                         pred_json = json.dumps(pred_list[0])
-                        print(pred_json)
+                        # print(pred_json)
                         with open('./video_prediction.json', 'w') as file:
                             file.write(pred_json)
-                        print(pred_json)
+
+                        # with open('./multi_prediction.json', 'w') as file:
+                        #     file.writeVid(pred_json)
+
+                        # print(pred_json)
                         # predictions_to_json = predictions.tolist()
                         # file_path= "/video_prediction.json"
                         # json.dump(predictions_to_json, codecs.open(file_path, 'w', encoding='utf-8'),
@@ -76,14 +96,14 @@ def gen_frames():  # generate frame by frame from camera
 
                         max_index = np.argmax(predictions[0])
                         highest_prediction_value = predictions.max(1) * 100.0
-                        print(highest_prediction_value)
+                        # print(highest_prediction_value)
 
                         emotions = ['angry', 'fear', 'happy', 'sad']
                         predicted_emotion = emotions[max_index]
-                        print(predicted_emotion)
-                        print(emotions[max_index])
+                        # print(predicted_emotion)
+                        # print(emotions[max_index])
                         display_percentage_of_emotion = str(predicted_emotion) + ": " + str(highest_prediction_value)
-                        print(display_percentage_of_emotion)
+                        # print(display_percentage_of_emotion)
                         cv2.putText(frame, display_percentage_of_emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1,
                                     (0, 0, 255), 2)
 
