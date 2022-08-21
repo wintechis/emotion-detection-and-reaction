@@ -1,17 +1,9 @@
-import json
-import time
+#   Python file containing the processing logic for FER analysis tasks
+#   returns a video stream and a json array of probabilities
 
 import cv2
 import numpy as np
-from tensorflow.keras.models import model_from_json
-from tensorflow.keras.preprocessing import image
 import json as json
-from json import JSONEncoder
-import numpy
-
-import codecs
-
-
 import keras
 
 model = keras.models.load_model('models/model_8_50epoch80_CK48dataset.h5')
@@ -21,6 +13,7 @@ try:
 except Exception:
     st.write("Error loading cascade classifiers")
 camera = cv2.VideoCapture(0)
+
 
 def gen_frames():  # generate frame by frame from camera
     while True:
@@ -62,7 +55,7 @@ def gen_frames():  # generate frame by frame from camera
                         print(pred_json)
                         with open('./video_prediction.json', 'w') as file:
                             file.write(pred_json)
-                        print(pred_json)
+                        #print(pred_json)
                         # predictions_to_json = predictions.tolist()
                         # file_path= "/video_prediction.json"
                         # json.dump(predictions_to_json, codecs.open(file_path, 'w', encoding='utf-8'),

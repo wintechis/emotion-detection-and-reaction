@@ -1,3 +1,9 @@
+#
+#   Main driver code for the Flask based web app on a localhost
+#   created by Ronja Rehm and Jan Kühlborn
+#
+###################################################################################
+
 from flask import Flask, render_template, Response, make_response, send_file
 import audio_recognizer
 import json
@@ -37,7 +43,7 @@ def multimodal():
 def live_data():
     # echo audio predictions as JSON
     data = audio_recognizer.analyze_audio()
-    response = make_response(json.dumps(data))
+    response = make_response(json.dumps(data.tolist()))
     response.content_type = 'application/json'
     return response
 
@@ -53,10 +59,13 @@ def live_data_video():
 @app.route('/live-data_multi')
 def live_data_multi():
     # Create a PHP array and echo it as JSON
-    f = open('multi_prediction.json')
+    f = open('video_prediction.json')
     data = json.load(f)
-    response = make_response(json.dumps(data))
-    response.content_type = 'application/json'
+    data2 = audio_recognizer.analyze_audio()
+    newdict = [{"name": "Video", "data": [{"name": "Angry", "value": round(data[0])}, {"name": "Fear", "value": round(data[1])}, {"name": "Happy", "value": round(data[2])}, {"name": "Sad", "value": round(data[3])}]}, {"name": "Audio", "data": [{"name": "Angry", "value": round(data2[0])}, {"name": "Fear", "value": round(data2[1])}, {"name": "Happy", "value": round(data2[2])}, {"name": "Sad", "value": round(data2[3])}]}]
+
+    response = make_response(json.dumps(newdict))
+    #response.content_type = 'application/json'
     return response
 
 

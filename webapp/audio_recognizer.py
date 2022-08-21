@@ -8,7 +8,9 @@ import librosa.display
 import pyaudio
 import wave
 import matplotlib.pyplot as plt
+from joblib import load
 
+scaler = load('models/std_scaler.bin')  # load pretrained SciKit StandardScaler
 model_audio = keras.models.load_model('models/SER_model_without_CREMA.h5')
 
 
@@ -75,8 +77,7 @@ def extract_audio_features(data, sample_rate):
 
 
 def get_audio_features(path):
-    # duration and offset are used to take care of the no audio in start and the ending of each audio files as seen above.
-    data, sample_rate = librosa.load(path, duration=2.5, offset=0.6)
+    data, sample_rate = librosa.load(path)
 
     # without augmentation
     res1 = extract_audio_features(data, sample_rate)
@@ -98,6 +99,7 @@ def get_audio_features(path):
 
 # driver function: returns prediction
 def analyze_audio():
+
 #while True:
     samp_rate = 44100  # 44.1kHz sampling rate
     chunk = 4096  # 2^12 samples for buffer
@@ -133,7 +135,7 @@ def analyze_audio():
     wavefile.close()
 
     x_audio = get_audio_features(wav_output_filename)
+    x_audio = scaler.transform(x_audio)
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
-    print(pred[0].tolist())
-    return pred[0].tolist()
+    return pred[0]
