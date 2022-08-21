@@ -1,3 +1,6 @@
+#   Python file containing the processing logic for FER analysis tasks
+#   returns a video stream and a json array of probabilities
+
 import json
 import time
 

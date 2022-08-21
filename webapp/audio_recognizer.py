@@ -138,4 +138,8 @@ def analyze_audio():
     x_audio = scaler.transform(x_audio)
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
-    return pred[0]
+    j=[]
+    for i in range(3):
+        j.append(np.argmax(pred[i]))
+    counts = np.bincount(j)     #return most frequent value from stacked array (because we predict on different versions)
+    return np.argmax(counts)
