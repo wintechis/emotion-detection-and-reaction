@@ -6,18 +6,20 @@ var chart;
  */
 function requestData() {
     $.ajaxSetup({
-        async: true
+    async: true
     });
 
     $.ajax({
         url: '/live-data_multi',
-        success: function (point) {
-            //alert(JSON.stringify(point));
+        success: function(point) {
             var series = chart.series[0];
-            chart.series[0].setData(point, true);
+            // chart.series[0].setData(point, true);
+            chart.series=[];
+			  point.forEach((j, i) => {
+					chart.addSeries(j);
+			  });
             // call it again after three seconds
-            alert(series);
-            setTimeout(requestData, 1000);
+            setTimeout(requestData, 5000);
         },
         cache: false
     });
@@ -68,10 +70,9 @@ $(document).ready(function () {
                 }
             }
         },
-        series: [{
-            data: requestData
-        }]
-
+        series: [],
 
     });
-});
+}
+
+);
