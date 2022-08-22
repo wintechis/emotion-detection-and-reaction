@@ -14,6 +14,7 @@ function requestData() {
         success: function(point) {
             var series = chart.series[0];
             // chart.series[0].setData(point, true);
+            alert(point)
             chart.series=[];
 			  point.forEach((j, i) => {
 					chart.addSeries(j);
