@@ -32,7 +32,7 @@ def shift(data):
 
 
 def pitch(data, sampling_rate):
-    return librosa.effects.pitch_shift(data, sampling_rate, n_steps=0.7)
+    return librosa.effects.pitch_shift(data, sr=44100, n_steps=0.7)
 
 
 # main functions
@@ -66,13 +66,13 @@ def extract_audio_features(data, sample_rate):
     plt.title('Spectrogram')
     plt.tight_layout()
     plt.savefig('diagrams\\MelSpec.png')
-    plt.clf()
+
     #plt.show()
     plt.figure(figsize=(8, 4))
     librosa.display.waveshow(data, sr=sample_rate)
     plt.title('Waveplot')
     plt.savefig('diagrams\\Waveplot.png')
-    plt.clf()
+    plt.close('all')
     return result
 
 
@@ -138,9 +138,10 @@ def analyze_audio():
     x_audio = scaler.transform(x_audio)
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
-    j = []
-    for i in range(3):
-        j.append(np.argmax(pred[i]))
-    counts = np.bincount(j)
-    #print(np.argmax(counts))
-    return pred[0]
+    #j = []
+    #for i in range(len(pred)):
+    #    j.append(np.argmax(pred[i]))
+    #counts = np.bincount(j)
+    #counts1 = np.argmax(counts)
+    #print(pred[counts1])
+    return pred[2]
