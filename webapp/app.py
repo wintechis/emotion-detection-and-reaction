@@ -31,6 +31,10 @@ def about():
 def audio():
     return render_template('audio.html', data='test')
 
+@app.route('/audio8')
+def audio8():
+    return render_template('audio_8emotions.html', data='test')
+
 @app.route('/Video')
 def Video():
     return render_template('Video.html')
@@ -43,6 +47,14 @@ def multimodal():
 def live_data():
     # echo audio predictions as JSON
     data = audio_recognizer.analyze_audio()
+    response = make_response(json.dumps(data.tolist()))
+    response.content_type = 'application/json'
+    return response
+
+@app.route('/live-data8')
+def live_data8():
+    # echo audio predictions as JSON
+    data = audio_recognizer8.analyze_audio()
     response = make_response(json.dumps(data.tolist()))
     response.content_type = 'application/json'
     return response

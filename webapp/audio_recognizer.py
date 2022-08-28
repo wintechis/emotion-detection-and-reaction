@@ -14,8 +14,6 @@ scaler = load('models/std_scaler.bin')  # load pretrained SciKit StandardScaler
 model_audio = keras.models.load_model('models/SER_model_without_CREMA.h5')
 
 
-# ToDo include following small functions in extract_audio
-
 def noise(data):
     noise_amp = 0.035*np.random.uniform()*np.amax(data)
     data = data + noise_amp*np.random.normal(size=data.shape[0])
@@ -138,10 +136,5 @@ def analyze_audio():
     x_audio = scaler.transform(x_audio)
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
-    #j = []
-    #for i in range(len(pred)):
-    #    j.append(np.argmax(pred[i]))
-    #counts = np.bincount(j)
-    #counts1 = np.argmax(counts)
-    #print(pred[counts1])
+
     return pred[2]
