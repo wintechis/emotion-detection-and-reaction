@@ -1,4 +1,5 @@
 var chart;
+var firstTime=true;
 
 /**
  * Request data from the server, add it to the graph and set a timeout
@@ -12,14 +13,31 @@ function requestData() {
     $.ajax({
         url: '/live-data_multi',
         success: function(point) {
-            var series = chart.series[0];
+
+            console.log("786 POINT",point)
             // chart.series[0].setData(point, true);
-            chart.series=[];
+            //chart.series=[];
+
+           // chart.series.map((ser,i)=>{
+            //    chart.series[i].remove();
+           // })
+
+
+            if(firstTime==true){
 			  point.forEach((j, i) => {
 					chart.addSeries(j);
+					//chart.series[i].setData(j, true);
 			  });
+			  firstTime=false;
+			  }
+			  else{
+			    point.forEach((j, i) => {
+					//chart.addSeries(j);
+					chart.series[i].setData(j.data, true);
+			  });
+			  }
             // call it again after three seconds
-            setTimeout(requestData, 5000);
+            setTimeout(requestData, 3000);
         },
         cache: false
     });
@@ -54,6 +72,7 @@ $(document).ready(function () {
                     dragBetweenSeries: true,
                     parentNodeLimit: true
                 },
+
                 dataLabels: {
                     enabled: true,
                     format: '{point.name}',
@@ -70,7 +89,17 @@ $(document).ready(function () {
                 }
             }
         },
+        xAxis:[ {
+                crosshair: {
+                		snap: false,
+                    label: {
+                        enabled: true,
+                        padding: 8
+                    }
+                }
+            }],
         series: [],
+        //series:[{},{}]
 
     });
 }

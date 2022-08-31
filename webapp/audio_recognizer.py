@@ -15,8 +15,8 @@ model_audio = keras.models.load_model('models/SER_model_without_CREMA.h5')
 # ToDo include following small functions in extract_audio
 
 def noise(data):
-    noise_amp = 0.035*np.random.uniform()*np.amax(data)
-    data = data + noise_amp*np.random.normal(size=data.shape[0])
+    noise_amp = 0.035 * np.random.uniform() * np.amax(data)
+    data = data + noise_amp * np.random.normal(size=data.shape[0])
     return data
 
 
@@ -25,7 +25,7 @@ def stretch(data):
 
 
 def shift(data):
-    shift_range = int(np.random.uniform(low=-5, high=5)*1000)
+    shift_range = int(np.random.uniform(low=-5, high=5) * 1000)
     return np.roll(data, shift_range)
 
 
@@ -58,19 +58,19 @@ def extract_audio_features(data, sample_rate):
     result = np.hstack((result, mel))  # stacking horizontally
     spec = np.abs(librosa.stft(data, hop_length=512))
     spec = librosa.amplitude_to_db(spec, ref=np.max)
-    librosa.display.specshow(spec, sr=sample_rate, x_axis='time', y_axis='log')
-    plt.colorbar(format='%+2.0f dB')
-    plt.clim(-80, 0)
-    plt.title('Spectrogram')
-    plt.tight_layout()
-    plt.savefig('diagrams\\MelSpec.png')
-    plt.clf()
-    #plt.show()
-    plt.figure(figsize=(8, 4))
-    librosa.display.waveshow(data, sr=sample_rate)
-    plt.title('Waveplot')
-    plt.savefig('diagrams\\Waveplot.png')
-    plt.clf()
+    # librosa.display.specshow(spec, sr=sample_rate, x_axis='time', y_axis='log')
+    # plt.colorbar(format='%+2.0f dB')
+    # plt.clim(-80, 0)
+    # plt.title('Spectrogram')
+    # plt.tight_layout()
+    # plt.savefig('diagrams\\MelSpec.png')
+    # plt.clf()
+    # # plt.show()
+    # plt.figure(figsize=(8, 4))
+    # librosa.display.waveshow(data, sr=sample_rate)
+    # plt.title('Waveplot')
+    # plt.savefig('diagrams\\Waveplot.png')
+    # plt.clf()
     return result
 
 
@@ -98,7 +98,7 @@ def get_audio_features(path):
 
 # driver function: returns prediction
 def analyze_audio():
-#while True:
+    # while True:
     samp_rate = 44100  # 44.1kHz sampling rate
     chunk = 4096  # 2^12 samples for buffer
     record_secs = 3  # seconds to record
@@ -107,9 +107,9 @@ def analyze_audio():
 
     # check input devices
     audio = pyaudio.PyAudio()
-    #info = audio.get_host_api_info_by_index(0)
-    #numdevices = info.get('deviceCount')
-    #for i in range(0, numdevices):
+    # info = audio.get_host_api_info_by_index(0)
+    # numdevices = info.get('deviceCount')
+    # for i in range(0, numdevices):
     #    if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
     #        print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
 
@@ -136,4 +136,8 @@ def analyze_audio():
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
     print(pred[0].tolist())
+
+    # with open('./audio_prediction.json', 'w') as file:
+    #     file.write(str(pred[0].tolist()))
+
     return pred[0].tolist()

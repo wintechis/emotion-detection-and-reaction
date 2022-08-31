@@ -22,22 +22,6 @@ except Exception:
 camera = cv2.VideoCapture(0)
 
 
-# def writeVid(pred_json):
-#     s = '[{' \
-#         '"name": "Video",' \
-#         '"data": [' \
-#             '{"name": "Angry",' \
-#             '"value":' + round(pred_json[0]) + '},' +\
-#             '{"name": "Fear",' \
-#             '"value":' + round(pred_json[1]) + '},' +\
-#             '{"name": "Happy",' \
-#             '"value":' + round(pred_json[2]) + '},' +\
-#             '{"name": "Sad",' \
-#             '"value":' + round(pred_json[3]) + '}]},'
-#
-#     file.write(s)
-
-
 def gen_frames():  # generate frame by frame from camera
     while True:
         try:
@@ -80,8 +64,9 @@ def gen_frames():  # generate frame by frame from camera
                             file.write(pred_json)
 
                         # with open('./multi_prediction.json', 'w') as file:
+                        #     file.writeAud()
                         #     file.writeVid(pred_json)
-
+                        #
                         # print(pred_json)
                         # predictions_to_json = predictions.tolist()
                         # file_path= "/video_prediction.json"
