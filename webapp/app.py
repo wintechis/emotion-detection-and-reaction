@@ -1,6 +1,6 @@
 import threading
 
-from flask import Flask, render_template, Response, make_response, send_file
+from flask import Flask, render_template, Response, make_response, send_file, send_from_directory
 import audio_recognizer
 import json
 import video_recognizer
@@ -38,7 +38,8 @@ def Video():
 
 @app.route('/multimodal')
 def multimodal():
-    return render_template('multimodal.html')
+    with open('highestValue.txt', 'r') as f:
+        return render_template('multimodal.html', text=f.read())
 
 
 @app.route('/live-data')
@@ -76,11 +77,15 @@ def live_data_multi():
     data = json.load(f)
     data2 = audio_recognizer.analyze_audio()
     newdict = [{"name": "Video",
-                "data": [{"name": "Angry", "value": round(data[0]*100, 2)}, {"name": "Fear", "value": round(data[1]*100, 2)},
-                         {"name": "Happy", "value": round(data[2]*100, 2)}, {"name": "Sad", "value": round(data[3]*100, 2)}]},
+                "data": [{"name": "Angry", "value": round(data[0] * 100, 2)},
+                         {"name": "Fear", "value": round(data[1] * 100, 2)},
+                         {"name": "Happy", "value": round(data[2] * 100, 2)},
+                         {"name": "Sad", "value": round(data[3] * 100, 2)}]},
                {"name": "Audio",
-                "data": [{"name": "Angry", "value": round(data2[0]*100, 2)}, {"name": "Fear", "value": round(data2[1]*100, 2)},
-                         {"name": "Happy", "value": round(data2[2]*100, 2)}, {"name": "Sad", "value": round(data2[3]*100, 2)}]}]
+                "data": [{"name": "Angry", "value": round(data2[0] * 100, 2)},
+                         {"name": "Fear", "value": round(data2[1] * 100, 2)},
+                         {"name": "Happy", "value": round(data2[2] * 100, 2)},
+                         {"name": "Sad", "value": round(data2[3] * 100, 2)}]}]
 
     print(newdict)
 
@@ -99,10 +104,31 @@ def waveplot():
     return send_file('diagrams\\Waveplot.png', mimetype='image/png')
 
 
+@app.route("/happy")
+def h():
+    return send_file('static/images/happy.jpg')
+
+
+@app.route("/fear")
+def f():
+    return send_file('static/images/fear.jpg')
+
+
+@app.route("/angry")
+def a():
+    return send_file('static/images/angry.jpg')
+
+
+@app.route("/sad")
+def s():
+    return send_file('static/images/sad.jpg')
+
+
+@app.route("/highest")
+def highest():
+    with open('highestValue.txt', 'r') as f:
+        return render_template('content.html', text=f.read())
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-    t = threading.Thread(target=your_func)
-    t.setDaemon(True)
-    t.start()

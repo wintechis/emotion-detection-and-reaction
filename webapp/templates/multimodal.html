@@ -9,18 +9,32 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     {% include 'includes/_navbar.html' %}
     <title>Real Time Multimodal Emotion Detection</title>
+
 </head>
 
 <body style="background-color:#002147;">
 <div class="parallax-content baner-content" id="home">
-    <div class="container">
+    <div class="container text-center">
         <div class="row">
-            <div class="col-lg-8  offset-lg-2">
-                <h3 class="mt-5"><font color="white" style="font-family:verdana;" style="font-size:300%;"> Video Recognition</font></h3>
+            <div class="col-sm-8">
+                <h3 class="mt-5"><font color="white" style="font-family:verdana;" style="font-size:300%;"> Video
+                    Recognition</font></h3>
                 <img src="{{ url_for('video_feed') }}" width="100%">
             </div>
+            <div class="col-sm-4" style="margin: 100px 0px">
+                    <pre>
+                        {{ text }}
+                    </pre>
+                <div id="imgDiv">
+
+                </div>
+                {#                    <img src="static/images/happy.jpg" alt="Show/Hide Image"/>#}
+
+            </div>
         </div>
+
     </div>
+
 </div>
 
 
@@ -34,6 +48,7 @@
 </div>
 <hr>
 
+
 </div> <!-- /container -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -42,6 +57,32 @@
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
 <script src="/static/graph_multi.js"></script>
+<script src="/static/emoji.js"></script>
+<script type="text/javascript">
+        var highest = document.querySelector('pre').innerHTML
+        console.log("higghest: " + highest)
+        highest2 = parseInt(highest)
+        $(document).ready(function () {
+            $("#col-sm-4").change(function () {
+                 if (highest2 == 0) {
+                $('#imgDiv').html('\t<img src="static/images/angry.jpg" alt="Show/Hide Image"/>\n');
+            }
+            if (highest2 == 1) {
+                $('#imgDiv').html('\t<img src="static/images/fear.jpg" alt="Show/Hide Image"/>\n');
+            }
+            if (highest2 == 2) {
+                $('#imgDiv').html('\t<img src="static/images/happy.jpg" alt="Show/Hide Image"/>\n');
+            }
+            if (highest2 == 3) {
+                $('#imgDiv').html('\t<img src="static/images/sad.jpg" alt="Show/Hide Image"/>\n');
+            }
+            console.log(highest)
+            })
+
+        });
+
+    </script>
+
 
 </body>
 </html>

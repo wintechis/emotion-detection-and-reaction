@@ -80,6 +80,9 @@ def gen_frames():  # generate frame by frame from camera
                         # find max indexed array
 
                         max_index = np.argmax(predictions[0])
+                        with open('./highestValue.txt', 'w') as file:
+                            file.write(str(max_index))
+
                         highest_prediction_value = predictions.max(1) * 100.0
                         # print(highest_prediction_value)
 
