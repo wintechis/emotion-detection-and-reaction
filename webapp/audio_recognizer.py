@@ -12,7 +12,7 @@ plt.switch_backend('agg')
 from joblib import load
 
 scaler = load('models/std_scaler.bin')  # load pretrained SciKit StandardScaler
-model_audio = keras.models.load_model('models\SER_model_without_CREMA.h5')
+model_audio = keras.models.load_model('models/SER_model_without_CREMA.h5')
 
 
 def noise(data):
@@ -99,7 +99,7 @@ def get_audio_features(path):
     return result
 
 
-# driver function: returns prediction
+# driver function: returns prediction. To debug: comment line 103 and 150, uncomment line 104, run this file
 def analyze_audio():
 #while True:
 
@@ -110,7 +110,7 @@ def analyze_audio():
     wav_output_filename = 'temp_audio.wav'  # name of .wav file
     print('start audio recognition')
 
-    # check input devices
+    # check input devices. Uncomment to print device indices to commandline
     audio = pyaudio.PyAudio()
     # info = audio.get_host_api_info_by_index(0)
     # numdevices = info.get('deviceCount')
@@ -147,4 +147,4 @@ def analyze_audio():
     # with open('./audio_prediction.json', 'w') as file:
     #     file.write(str(pred[0].tolist()))
 
-    return pred[2].tolist()
+    return pred[2]

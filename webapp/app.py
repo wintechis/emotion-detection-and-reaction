@@ -15,6 +15,8 @@ import numpy as np
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
 app = Flask(__name__, static_folder='static')
+global audio_emotion
+global audio_emotion_8
 
 
 @app.route('/')
@@ -56,7 +58,9 @@ def multimodal():
 @app.route('/live-data')
 def live_data():
     # echo audio predictions as JSON
+    global audio_emotion
     data = audio_recognizer.analyze_audio()
+    audio_emotion = data
     response = make_response(json.dumps(data.tolist()))
     response.content_type = 'application/json'
     return response
@@ -64,7 +68,9 @@ def live_data():
 @app.route('/live-data8')
 def live_data8():
     # echo audio predictions as JSON
+    global audio_emotion_8
     data = audio_recognizer8.analyze_audio()
+    audio_emotion_8 = data
     response = make_response(json.dumps(data.tolist()))
     response.content_type = 'application/json'
     return response
@@ -119,8 +125,11 @@ def waveplot():
 
 @app.route('/emotion')
 def emotion():
-    data = audio_recognizer.analyze_audio()
-    print(np.argmax(data))
+    try:
+        data = audio_emotion
+    except NameError:
+        data = [0.0, 0.0, 2.0, 0.0]
+    print('audio array: ', data)
     if np.argmax(data) == 0:
         return send_file('static\\images\\angry.jpg', mimetype='image/jpg')
     elif np.argmax(data) == 1:
@@ -129,6 +138,33 @@ def emotion():
         return send_file('static\\images\\happy.jpg', mimetype='image/jpg')
     elif np.argmax(data) == 3:
         return send_file('static\\images\\sad.png', mimetype='image/png')
+    else:
+        return send_file('static\\images\\blank.png', mimetype='image/jpg')
+
+
+@app.route('/emotion8')
+def emotion8():
+    try:
+        data = audio_emotion_8
+    except NameError:
+        data = [0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    print('audio array: ', data)
+    if np.argmax(data) == 0:
+        return send_file('static\\images\\angry.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 3:
+        return send_file('static\\images\\fear.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 4:
+        return send_file('static\\images\\happy.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 6:
+        return send_file('static\\images\\sad.png', mimetype='image/png')
+    elif np.argmax(data) == 1:
+        return send_file('static\\images\\calm.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 2:
+        return send_file('static\\images\\disgust.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 5:
+        return send_file('static\\images\\neutral.png', mimetype='image/png')
+    elif np.argmax(data) == 7:
+        return send_file('static\\images\\surprise.png', mimetype='image/png')
     else:
         return send_file('static\\images\\blank.png', mimetype='image/jpg')
 

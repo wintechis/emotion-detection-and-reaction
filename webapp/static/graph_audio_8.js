@@ -6,7 +6,7 @@ var chart;
  */
 function requestData() {
     $.ajax({
-        url: '/live-data_8',
+        url: '/live-data8',
         success: function(point) {
             var series = chart.series[0];
             chart.series[0].setData(point, true);
@@ -30,7 +30,7 @@ $(document).ready(function () {
             text: 'Audio Recognition'
         },
         xAxis: {
-            categories: ['angry', 'fear', 'happy', 'sad'],
+            categories: ['angry', 'calm', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'],
             labels: {
                 x: -10
             }
