@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+
+
+{% block body %}
+
+    <pre>
+{{ text }}
+</pre>
+
+    <script type="text/javascript">
+        var highest = document.querySelector('pre').innerHTML
+        console.log("higghest: " + highest)
+        highest2 = parseInt(highest)
+        $(document).ready(function () {
+            $("#imgDiv").change(function () {
+                if (highest2 == 0) {
+                    $('#imgDiv').html('\t<img src="static/images/angry.jpg" alt="Show/Hide Image"/>\n');
+                }
+                if (highest2 == 1) {
+                    $('#imgDiv').html('\t<img src="static/images/fear.jpg" alt="Show/Hide Image"/>\n');
+                }
+                if (highest2 == 2) {
+                    $('#imgDiv').html('\t<img src="static/images/happy.jpg" alt="Show/Hide Image"/>\n');
+                }
+                if (highest2 == 3) {
+                    $('#imgDiv').html('\t<img src="static/images/sad.jpg" alt="Show/Hide Image"/>\n');
+                }
+                console.log(highest)
+            })
+        });
+
+    </script>
+{% endblock %}
+
+

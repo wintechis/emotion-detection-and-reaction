@@ -16,8 +16,8 @@ model_audio = keras.models.load_model('models\SER_model_without_CREMA.h5')
 
 
 def noise(data):
-    noise_amp = 0.035*np.random.uniform()*np.amax(data)
-    data = data + noise_amp*np.random.normal(size=data.shape[0])
+    noise_amp = 0.035 * np.random.uniform() * np.amax(data)
+    data = data + noise_amp * np.random.normal(size=data.shape[0])
     return data
 
 
@@ -26,7 +26,7 @@ def stretch(data):
 
 
 def shift(data):
-    shift_range = int(np.random.uniform(low=-5, high=5)*1000)
+    shift_range = int(np.random.uniform(low=-5, high=5) * 1000)
     return np.roll(data, shift_range)
 
 
@@ -101,8 +101,8 @@ def get_audio_features(path):
 
 # driver function: returns prediction
 def analyze_audio():
-
 #while True:
+
     samp_rate = 44100  # 44.1kHz sampling rate
     chunk = 4096  # 2^12 samples for buffer
     record_secs = 3  # seconds to record
@@ -112,9 +112,9 @@ def analyze_audio():
 
     # check input devices
     audio = pyaudio.PyAudio()
-    #info = audio.get_host_api_info_by_index(0)
-    #numdevices = info.get('deviceCount')
-    #for i in range(0, numdevices):
+    # info = audio.get_host_api_info_by_index(0)
+    # numdevices = info.get('deviceCount')
+    # for i in range(0, numdevices):
     #    if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
     #        print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
 
@@ -142,4 +142,9 @@ def analyze_audio():
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
     print('audio analysed')
-    return pred[2]
+
+
+    # with open('./audio_prediction.json', 'w') as file:
+    #     file.write(str(pred[0].tolist()))
+
+    return pred[2].tolist()
