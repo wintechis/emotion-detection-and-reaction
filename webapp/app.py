@@ -6,12 +6,14 @@
 
 from flask import Flask, render_template, Response, make_response, send_file
 import audio_recognizer
+import audio_recognizer8
 import json
 import video_recognizer
 import os
+import numpy as np
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 
 @app.route('/')
@@ -88,6 +90,21 @@ def spectrogram():
 @app.route('/waveplot')
 def waveplot():
     return send_file('diagrams\\Waveplot.png', mimetype='image/png')
+
+@app.route('/emotion')
+def emotion():
+    data = audio_recognizer.analyze_audio()
+    print(np.argmax(data))
+    if np.argmax(data) == 0:
+        return send_file('static\\images\\angry.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 1:
+        return send_file('static\\images\\fear.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 2:
+        return send_file('static\\images\\happy.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 3:
+        return send_file('static\\images\\sad.png', mimetype='image/png')
+    else:
+        return send_file('static\\images\\blank.png', mimetype='image/jpg')
 
 
 if __name__ == '__main__':

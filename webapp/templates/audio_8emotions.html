@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>SER live Demo</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 </head>
 
 <body onload="updateImage();">
@@ -30,19 +31,20 @@
     window.onload = function () {
         var image = document.getElementById("img");
         var plots = document.getElementById("plots");
+        var emotion2 = document.getElementById("emotion2");
 
         function updateImage() {
             image.src = image.src.split("?")[0] + "?" + new Date().getTime();
             plots.src = plots.src.split("?")[0] + "?" + new Date().getTime();
+            emotion2.src = emotion2.src.split("?")[0] + "?" + new Date().getTime();
         }
-
         setInterval(updateImage, 3000);
     }
 </script>
 
-<img id="img" src="/spectrogram" style="position:relative;top:0;left:0;height:90%;width:90%"/>
-<img id="plots" src="/waveplot" style="position:relative;top:0;left:0;height:90%;width:90%"/>
-
+<img id="img" src="/spectrogram" style="position:relative;top:0;left:0;height:49%;width:49%" alt="Spectrogram"/>
+<img id="plots" src="/waveplot" style="position:relative;top:0;left:0;height:49%;width:49%" alt="Waveplot"/>
+<img id="emotion2" src="/emotion" alt="Emotion"/>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>

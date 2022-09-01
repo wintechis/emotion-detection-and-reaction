@@ -8,6 +8,7 @@ import librosa.display
 import pyaudio
 import wave
 import matplotlib.pyplot as plt
+plt.switch_backend('agg')
 from joblib import load
 
 scaler = load('models/std_scaler_8.bin')  # load pretrained SciKit StandardScaler
@@ -56,21 +57,25 @@ def extract_audio_features(data, sample_rate):
     # MelSpectogram
     mel = np.mean(librosa.feature.melspectrogram(y=data, sr=sample_rate).T, axis=0)
     result = np.hstack((result, mel))  # stacking horizontally
-    spec = np.abs(librosa.stft(data, hop_length=512))
-    spec = librosa.amplitude_to_db(spec, ref=np.max)
-    librosa.display.specshow(spec, sr=sample_rate, x_axis='time', y_axis='log')
-    plt.colorbar(format='%+2.0f dB')
-    plt.clim(-80, 0)
-    plt.title('Spectrogram')
-    plt.tight_layout()
-    plt.savefig('diagrams\\MelSpec.png')
 
-    #plt.show()
-    plt.figure(figsize=(8, 4))
-    librosa.display.waveshow(data, sr=sample_rate)
-    plt.title('Waveplot')
-    plt.savefig('diagrams\\Waveplot.png')
-    plt.close('all')
+    try:
+        spec = np.abs(librosa.stft(data, hop_length=512))
+        spec = librosa.amplitude_to_db(spec, ref=np.max)
+        librosa.display.specshow(spec, sr=sample_rate, x_axis='time', y_axis='log')
+        plt.colorbar(format='%+2.0f dB')
+        plt.clim(-80, 0)
+        plt.title('Spectrogram')
+        plt.tight_layout()
+        plt.savefig('diagrams\\MelSpec.png')
+
+        #plt.show()
+        plt.figure(figsize=(8, 4))
+        librosa.display.waveshow(data, sr=sample_rate)
+        plt.title('Waveplot')
+        plt.savefig('diagrams\\Waveplot.png')
+        plt.close('all')
+    except ValueError:
+        pass
     return result
 
 

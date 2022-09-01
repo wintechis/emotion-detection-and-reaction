@@ -8,10 +8,11 @@ import librosa.display
 import pyaudio
 import wave
 import matplotlib.pyplot as plt
+plt.switch_backend('agg')
 from joblib import load
 
 scaler = load('models/std_scaler.bin')  # load pretrained SciKit StandardScaler
-model_audio = keras.models.load_model('models/SER_model_without_CREMA.h5')
+model_audio = keras.models.load_model('models\SER_model_without_CREMA.h5')
 
 
 def noise(data):
@@ -53,24 +54,27 @@ def extract_audio_features(data, sample_rate):
     rms = np.mean(librosa.feature.rms(y=data).T, axis=0)
     result = np.hstack((result, rms))  # stacking horizontally
 
-    # MelSpectogram
-    mel = np.mean(librosa.feature.melspectrogram(y=data, sr=sample_rate).T, axis=0)
-    result = np.hstack((result, mel))  # stacking horizontally
-    spec = np.abs(librosa.stft(data, hop_length=512))
-    spec = librosa.amplitude_to_db(spec, ref=np.max)
-    librosa.display.specshow(spec, sr=sample_rate, x_axis='time', y_axis='log')
-    plt.colorbar(format='%+2.0f dB')
-    plt.clim(-80, 0)
-    plt.title('Spectrogram')
-    plt.tight_layout()
-    plt.savefig('diagrams\\MelSpec.png')
+    try:
+        # MelSpectogram
+        mel = np.mean(librosa.feature.melspectrogram(y=data, sr=sample_rate).T, axis=0)
+        result = np.hstack((result, mel))  # stacking horizontally
+        spec = np.abs(librosa.stft(data, hop_length=512))
+        spec = librosa.amplitude_to_db(spec, ref=np.max)
+        librosa.display.specshow(spec, sr=sample_rate, x_axis='time', y_axis='log')
+        plt.colorbar(format='%+2.0f dB')
+        plt.clim(-80, 0)
+        plt.title('Spectrogram')
+        plt.tight_layout()
+        plt.savefig('diagrams\\MelSpec.png')
 
-    #plt.show()
-    plt.figure(figsize=(8, 4))
-    librosa.display.waveshow(data, sr=sample_rate)
-    plt.title('Waveplot')
-    plt.savefig('diagrams\\Waveplot.png')
-    plt.close('all')
+        #plt.show()
+        plt.figure(figsize=(8, 4))
+        librosa.display.waveshow(data, sr=sample_rate)
+        plt.title('Waveplot')
+        plt.savefig('diagrams\\Waveplot.png')
+        plt.close('all')
+    except ValueError:
+        pass
     return result
 
 
@@ -104,6 +108,7 @@ def analyze_audio():
     record_secs = 3  # seconds to record
     dev_index = 1  # device index found by p.get_device_info_by_index(ii)
     wav_output_filename = 'temp_audio.wav'  # name of .wav file
+    print('start audio recognition')
 
     # check input devices
     audio = pyaudio.PyAudio()
@@ -131,10 +136,10 @@ def analyze_audio():
     wavefile.setframerate(samp_rate)
     wavefile.writeframes(b''.join(frames))
     wavefile.close()
-
+    print('audio file saved')
     x_audio = get_audio_features(wav_output_filename)
     x_audio = scaler.transform(x_audio)
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
-
+    print('audio analysed')
     return pred[2]
