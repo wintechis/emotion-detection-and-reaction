@@ -17,6 +17,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 app = Flask(__name__, static_folder='static')
 global audio_emotion
 global audio_emotion_8
+global multi_emotion
 
 
 @app.route('/')
@@ -51,8 +52,8 @@ def Video():
 
 @app.route('/multimodal')
 def multimodal():
-    with open('highestValue.txt', 'r') as f:
-        return render_template('multimodal.html', text=f.read())
+
+    return render_template('multimodal.html', )
 
 
 @app.route('/live-data')
@@ -89,13 +90,12 @@ def live_data_video():
 @app.route('/live-data_multi')
 def live_data_multi():
     # Create a PHP array and echo it as JSON
+    global multi_emotion
     f = open('video_prediction.json')
     data = json.load(f)
     data2 = audio_recognizer.analyze_audio()
-    newdict = [{"name": "Video", "data": [{"name": "Angry", "value": round(data[0])}, {"name": "Fear", "value": round(data[1])}, {"name": "Happy", "value": round(data[2])}, {"name": "Sad", "value": round(data[3])}]}, {"name": "Audio", "data": [{"name": "Angry", "value": round(data2[0])}, {"name": "Fear", "value": round(data2[1])}, {"name": "Happy", "value": round(data2[2])}, {"name": "Sad", "value": round(data2[3])}]}]
 
-    response = make_response(json.dumps(newdict))
-    #response.content_type = 'application/json'
+
     newdict = [{"name": "Video",
                 "data": [{"name": "Angry", "value": round(data[0] * 100, 2)},
                          {"name": "Fear", "value": round(data[1] * 100, 2)},
@@ -108,6 +108,13 @@ def live_data_multi():
                          {"name": "Sad", "value": round(data2[3] * 100, 2)}]}]
 
     print(newdict)
+
+    data3 = []
+    data = np.array(data)
+    for index in range(len(data2)):
+        print(index)
+        data3.append(0.7 * data[index] + 0.3 * data2[index])
+    multi_emotion = data3
 
     response = make_response(json.dumps(newdict))
     response.content_type = 'application/json'
@@ -123,15 +130,16 @@ def spectrogram():
 def waveplot():
     return send_file('diagrams\\Waveplot.png', mimetype='image/png')
 
+
 @app.route('/emotion')
 def emotion():
     try:
         data = audio_emotion
     except NameError:
-        data = [0.0, 0.0, 2.0, 0.0]
+        data = [0.0, 0.0, 0.0, 0.0]
     print('audio array: ', data)
     if np.argmax(data) == 0:
-        return send_file('static\\images\\angry.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\angry.png', mimetype='image/jpg')
     elif np.argmax(data) == 1:
         return send_file('static\\images\\fear.jpg', mimetype='image/jpg')
     elif np.argmax(data) == 2:
@@ -147,10 +155,10 @@ def emotion8():
     try:
         data = audio_emotion_8
     except NameError:
-        data = [0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        data = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     print('audio array: ', data)
     if np.argmax(data) == 0:
-        return send_file('static\\images\\angry.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\angry.png', mimetype='image/jpg')
     elif np.argmax(data) == 3:
         return send_file('static\\images\\fear.jpg', mimetype='image/jpg')
     elif np.argmax(data) == 4:
@@ -169,31 +177,24 @@ def emotion8():
         return send_file('static\\images\\blank.png', mimetype='image/jpg')
 
 
-@app.route("/happy")
-def h():
-    return send_file('static/images/happy.jpg')
-
-
-@app.route("/fear")
-def f():
-    return send_file('static/images/fear.jpg')
-
-
-@app.route("/angry")
-def a():
-    return send_file('static/images/angry.jpg')
-
-
-@app.route("/sad")
-def s():
-    return send_file('static/images/sad.jpg')
-
-
-@app.route("/highest")
-def highest():
-    with open('highestValue.txt', 'r') as f:
-        return render_template('content.html', text=f.read())
+@app.route('/multi_emotion')
+def multi_emotion():
+    try:
+        data = multi_emotion
+    except NameError:
+        data = [0.0, 0.0, 0.0, 0.0]
+    print('multi array: ', data)
+    if np.argmax(data) == 0:
+        return send_file('static\\images\\angry.png', mimetype='image/jpg')
+    elif np.argmax(data) == 1:
+        return send_file('static\\images\\fear.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 2:
+        return send_file('static\\images\\happy.jpg', mimetype='image/jpg')
+    elif np.argmax(data) == 3:
+        return send_file('static\\images\\sad.png', mimetype='image/png')
+    else:
+        return send_file('static\\images\\blank.png', mimetype='image/jpg')
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
