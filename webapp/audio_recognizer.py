@@ -8,11 +8,12 @@ import librosa.display
 import pyaudio
 import wave
 import matplotlib.pyplot as plt
+plt.switch_backend('agg')
+from joblib import load
 
+scaler = load('models/std_scaler.bin')  # load pretrained SciKit StandardScaler
 model_audio = keras.models.load_model('models/SER_model_without_CREMA.h5')
 
-
-# ToDo include following small functions in extract_audio
 
 def noise(data):
     noise_amp = 0.035 * np.random.uniform() * np.amax(data)
@@ -30,7 +31,7 @@ def shift(data):
 
 
 def pitch(data, sampling_rate):
-    return librosa.effects.pitch_shift(data, sampling_rate, n_steps=0.7)
+    return librosa.effects.pitch_shift(data, sr=44100, n_steps=0.7)
 
 
 # main functions
@@ -53,30 +54,32 @@ def extract_audio_features(data, sample_rate):
     rms = np.mean(librosa.feature.rms(y=data).T, axis=0)
     result = np.hstack((result, rms))  # stacking horizontally
 
-    # MelSpectogram
-    mel = np.mean(librosa.feature.melspectrogram(y=data, sr=sample_rate).T, axis=0)
-    result = np.hstack((result, mel))  # stacking horizontally
-    spec = np.abs(librosa.stft(data, hop_length=512))
-    spec = librosa.amplitude_to_db(spec, ref=np.max)
-    # librosa.display.specshow(spec, sr=sample_rate, x_axis='time', y_axis='log')
-    # plt.colorbar(format='%+2.0f dB')
-    # plt.clim(-80, 0)
-    # plt.title('Spectrogram')
-    # plt.tight_layout()
-    # plt.savefig('diagrams\\MelSpec.png')
-    # plt.clf()
-    # # plt.show()
-    # plt.figure(figsize=(8, 4))
-    # librosa.display.waveshow(data, sr=sample_rate)
-    # plt.title('Waveplot')
-    # plt.savefig('diagrams\\Waveplot.png')
-    # plt.clf()
+    try:
+        # MelSpectogram
+        mel = np.mean(librosa.feature.melspectrogram(y=data, sr=sample_rate).T, axis=0)
+        result = np.hstack((result, mel))  # stacking horizontally
+        spec = np.abs(librosa.stft(data, hop_length=512))
+        spec = librosa.amplitude_to_db(spec, ref=np.max)
+        librosa.display.specshow(spec, sr=sample_rate, x_axis='time', y_axis='log')
+        plt.colorbar(format='%+2.0f dB')
+        plt.clim(-80, 0)
+        plt.title('Spectrogram')
+        plt.tight_layout()
+        plt.savefig('diagrams\\MelSpec.png')
+
+        #plt.show()
+        plt.figure(figsize=(8, 4))
+        librosa.display.waveshow(data, sr=sample_rate)
+        plt.title('Waveplot')
+        plt.savefig('diagrams\\Waveplot.png')
+        plt.close('all')
+    except ValueError:
+        pass
     return result
 
 
 def get_audio_features(path):
-    # duration and offset are used to take care of the no audio in start and the ending of each audio files as seen above.
-    data, sample_rate = librosa.load(path, duration=2.5, offset=0.6)
+    data, sample_rate = librosa.load(path)
 
     # without augmentation
     res1 = extract_audio_features(data, sample_rate)
@@ -96,16 +99,18 @@ def get_audio_features(path):
     return result
 
 
-# driver function: returns prediction
+# driver function: returns prediction. To debug: comment line 103 and 150, uncomment line 104, run this file
 def analyze_audio():
-    # while True:
+#while True:
+
     samp_rate = 44100  # 44.1kHz sampling rate
     chunk = 4096  # 2^12 samples for buffer
     record_secs = 3  # seconds to record
     dev_index = 1  # device index found by p.get_device_info_by_index(ii)
     wav_output_filename = 'temp_audio.wav'  # name of .wav file
+    print('start audio recognition')
 
-    # check input devices
+    # check input devices. Uncomment to print device indices to commandline
     audio = pyaudio.PyAudio()
     # info = audio.get_host_api_info_by_index(0)
     # numdevices = info.get('deviceCount')
@@ -131,13 +136,15 @@ def analyze_audio():
     wavefile.setframerate(samp_rate)
     wavefile.writeframes(b''.join(frames))
     wavefile.close()
-
+    print('audio file saved')
     x_audio = get_audio_features(wav_output_filename)
+    x_audio = scaler.transform(x_audio)
     x_audio = np.expand_dims(x_audio, axis=2)
     pred = model_audio.predict(x_audio)
-    print(pred[0].tolist())
+    print('audio analysed')
+
 
     # with open('./audio_prediction.json', 'w') as file:
     #     file.write(str(pred[0].tolist()))
 
-    return pred[0].tolist()
+    return pred[2]

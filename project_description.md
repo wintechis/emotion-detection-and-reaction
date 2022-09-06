@@ -1,4 +1,4 @@
-# Camrea-based Multimodal Emotion Detection and Reaction
+# Camera-based Multimodal Emotion Detection and Reaction
 
 Intelligent human-agent collaboration requires the software agent to read the current situation correctly. In the context of an instructive assistance system, the software agent must align its level of support to its user’s capabilities. One assumption could be that a user that sounds or looks stressed or unconfident requires a higher level of support than a user who is calm and relaxed.
 

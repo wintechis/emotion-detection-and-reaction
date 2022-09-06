@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>SER live Demo</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 </head>
 
 <body onload="updateImage();">
@@ -19,9 +20,7 @@
 <div class="container-fluid">
     <!-- Example row of columns -->
     <div class="row">
-
         <div class="container-fluid" id="data-container"></div>
-
     </div>
 </div>
 <hr>
@@ -30,26 +29,27 @@
     window.onload = function () {
         var image = document.getElementById("img");
         var plots = document.getElementById("plots");
+        var emotion = document.getElementById("emotion");
 
         function updateImage() {
             image.src = image.src.split("?")[0] + "?" + new Date().getTime();
             plots.src = plots.src.split("?")[0] + "?" + new Date().getTime();
+            emotion.src = emotion.src.split("?")[0] + "?" + new Date().getTime();
         }
-
         setInterval(updateImage, 3000);
     }
 </script>
 
-<img id="img" src="/spectrogram" style="position:relative;top:0;left:0;height:30%;width:30%"/>
-<img id="plots" src="/waveplot" style="position:relative;top:0;left:0;height:30%;width:30%"/>
-
+<img id="img" src="/spectrogram" style="position:relative;top:0;left:0;height:49%;width:49%" alt="Spectrogram"/>
+<img id="plots" src="/waveplot" style="position:relative;top:0;left:0;height:49%;width:49%" alt="Waveplot"/>
+<img id="emotion" src="/emotion" alt="Emotion"/>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/highcharts-more.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
-<script src="/static/graph.js"></script>
+<script src="/static/graph_audio.js"></script>
 
 
 </body>
