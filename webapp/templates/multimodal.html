@@ -26,7 +26,10 @@
                         {{ text }}
                     </pre>
                 <div id="imgDiv">
-
+                    <img id="a" src="static/images/angry.jpg" alt="Show/Hide Image"/>
+                    <img id="f" src="static/images/fear.jpg" alt="Show/Hide Image"/>
+                    <img id="h" src="static/images/happy.jpg" alt="Show/Hide Image"/>
+                    <img id="s" src="static/images/sad.jpg" alt="Show/Hide Image"/>
                 </div>
                 {#                    <img src="static/images/happy.jpg" alt="Show/Hide Image"/>#}
 
@@ -59,29 +62,58 @@
 <script src="/static/graph_multi.js"></script>
 <script src="/static/emoji.js"></script>
 <script type="text/javascript">
-        var highest = document.querySelector('pre').innerHTML
-        console.log("higghest: " + highest)
-        highest2 = parseInt(highest)
-        $(document).ready(function () {
-            $("#col-sm-4").change(function () {
-                 if (highest2 == 0) {
-                $('#imgDiv').html('\t<img src="static/images/angry.jpg" alt="Show/Hide Image"/>\n');
-            }
-            if (highest2 == 1) {
-                $('#imgDiv').html('\t<img src="static/images/fear.jpg" alt="Show/Hide Image"/>\n');
-            }
-            if (highest2 == 2) {
-                $('#imgDiv').html('\t<img src="static/images/happy.jpg" alt="Show/Hide Image"/>\n');
-            }
-            if (highest2 == 3) {
-                $('#imgDiv').html('\t<img src="static/images/sad.jpg" alt="Show/Hide Image"/>\n');
-            }
-            console.log(highest)
-            })
+    let highest2 = 1
 
+    function requestData() {
+        $.ajaxSetup({
+            async: false
         });
+        $.ajax({
+            url: '/highest',
+            success: function (point) {
+                console.log(point)
+                var highest = document.querySelector('pre').innerHTML
+                console.log("highest: " + highest)
+                highest2 = parseInt(highest)
+                console.log("Als Integer " + highest2)
+            },
+            cache: false
+        });
+    }
 
-    </script>
+    $(document).ready(function () {
+        requestData()
+        if (highest2 == 0) {
+            $('#a').show();
+            $('#f').hide();
+            $('#h').hide();
+            $('#s').hide();
+        }
+        if (highest2 == 1) {
+            $('#a').hide();
+            $('#f').show();
+            $('#h').hide();
+            $('#s').hide();
+        }
+        if (highest2 == 2) {
+            $('#a').hide();
+            $('#f').hide();
+            $('#h').show();
+            $('#s').hide();
+        }
+        if (highest2 == 3) {
+            $('#a').hide();
+            $('#f').hide();
+            $('#h').hide();
+            $('#s').show();
+        }
+        requestData()
+
+    })
+
+    ;
+
+</script>
 
 
 </body>

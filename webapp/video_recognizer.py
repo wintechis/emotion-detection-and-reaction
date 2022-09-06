@@ -63,22 +63,6 @@ def gen_frames():  # generate frame by frame from camera
                         with open('./video_prediction.json', 'w') as file:
                             file.write(pred_json)
 
-                        # with open('./multi_prediction.json', 'w') as file:
-                        #     file.writeAud()
-                        #     file.writeVid(pred_json)
-                        #
-                        # print(pred_json)
-                        # predictions_to_json = predictions.tolist()
-                        # file_path= "/video_prediction.json"
-                        # json.dump(predictions_to_json, codecs.open(file_path, 'w', encoding='utf-8'),
-                        #           separators=(',', ':'),
-                        #           sort_keys=True,
-                        #           indent=4)  ### this saves the array in .json format
-
-                        # sendPredictions(predictions)
-
-                        # find max indexed array
-
                         max_index = np.argmax(predictions[0])
                         with open('./highestValue.txt', 'w') as file:
                             file.write(str(max_index))
