@@ -112,7 +112,6 @@ def live_data_multi():
     data3 = []
     data = np.array(data)
     for index in range(len(data2)):
-        print(index)
         data3.append(0.7 * data[index] + 0.3 * data2[index])
     multi_emotion = data3
 
@@ -139,15 +138,15 @@ def emotion():
         data = [0.0, 0.0, 0.0, 0.0]
     print('audio array: ', data)
     if np.argmax(data) == 0:
-        return send_file('static\\images\\angry.png', mimetype='image/jpg')
+        return send_file('static\\images\\angry.png', mimetype='image/png')
     elif np.argmax(data) == 1:
-        return send_file('static\\images\\fear.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\fear.png', mimetype='image/png')
     elif np.argmax(data) == 2:
-        return send_file('static\\images\\happy.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\happy.png', mimetype='image/png')
     elif np.argmax(data) == 3:
         return send_file('static\\images\\sad.png', mimetype='image/png')
     else:
-        return send_file('static\\images\\blank.png', mimetype='image/jpg')
+        return send_file('static\\images\\blank.png', mimetype='image/png')
 
 
 @app.route('/emotion8')
@@ -158,23 +157,23 @@ def emotion8():
         data = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     print('audio array: ', data)
     if np.argmax(data) == 0:
-        return send_file('static\\images\\angry.png', mimetype='image/jpg')
+        return send_file('static\\images\\angry.png', mimetype='image/png')
     elif np.argmax(data) == 3:
-        return send_file('static\\images\\fear.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\fear.png', mimetype='image/png')
     elif np.argmax(data) == 4:
-        return send_file('static\\images\\happy.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\happy.png', mimetype='image/png')
     elif np.argmax(data) == 6:
         return send_file('static\\images\\sad.png', mimetype='image/png')
     elif np.argmax(data) == 1:
-        return send_file('static\\images\\calm.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\calm.png', mimetype='image/png')
     elif np.argmax(data) == 2:
-        return send_file('static\\images\\disgust.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\disgust.png', mimetype='image/png')
     elif np.argmax(data) == 5:
         return send_file('static\\images\\neutral.png', mimetype='image/png')
     elif np.argmax(data) == 7:
         return send_file('static\\images\\surprise.png', mimetype='image/png')
     else:
-        return send_file('static\\images\\blank.png', mimetype='image/jpg')
+        return send_file('static\\images\\blank.png', mimetype='image/png')
 
 
 @app.route('/multi_emotion')
@@ -185,15 +184,15 @@ def multi_emotion():
         data = [0.0, 0.0, 0.0, 0.0]
     print('multi array: ', data)
     if np.argmax(data) == 0:
-        return send_file('static\\images\\angry.png', mimetype='image/jpg')
+        return send_file('static\\images\\angry.png', mimetype='image/png')
     elif np.argmax(data) == 1:
-        return send_file('static\\images\\fear.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\fear.png', mimetype='image/png')
     elif np.argmax(data) == 2:
-        return send_file('static\\images\\happy.jpg', mimetype='image/jpg')
+        return send_file('static\\images\\happy.png', mimetype='image/png')
     elif np.argmax(data) == 3:
         return send_file('static\\images\\sad.png', mimetype='image/png')
     else:
-        return send_file('static\\images\\blank.png', mimetype='image/jpg')
+        return send_file('static\\images\\blank.png', mimetype='image/png')
 
 
 if __name__ == '__main__':

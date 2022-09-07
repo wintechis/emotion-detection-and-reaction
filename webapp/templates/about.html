@@ -1,5 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    about this project
+    <div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5 text-center" >
+        <h1 class="display-5 fw-bold">about</h1>
+        <p class="fs-5 text-break">This project was developed by Ronja Rehm and Jan Kühlborn for the FAU IIS Hot Topics Seminar.</p>
+        <p class="fs-5 text-break">It is licensed under the MIT License, Copyright (c) 2022 Chair of Technical Information Systems, Friedrich-Alexander-University.</p>
+        <p class="fs-5 text-break">The data that we used to train our models is free to download on Kaggle and the websites of their respective research institutes.</p>
+        <p class="fs-5 text-break">The goal was to find a way to analyze an audio and video stream in Python, find suitable features for the emotion recognition and train neural networks. Research has shown that convolutional neural networks (CNNs) achieve the best accuracies and performances for both streams. Still, due to the very different input forms, we decided to train two separate models whose predictions are then combined.</p>
+        <p class="fs-5 text-break">For more information, refer to the presentation files in the GitHub repository.</p>
+    </div>
+</div>
 {% endblock %}

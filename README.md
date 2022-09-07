@@ -32,6 +32,12 @@ Two separate models (audio and video) predict the emotion in parallel. The final
 		- <a href="https://tspace.library.utoronto.ca/handle/1807/24487">Toronto emotional speech set (TESS)<a>
 		- <a href="http://kahlan.eps.surrey.ac.uk/savee/Database.html">Surrey Audio-Visual Expressed Emotion (SAVEE) Database<a>
 		- <a href="http://emodb.bilderbar.info/docu/">Berlin Database of Emotional Speech (emo-db)<a>
+		| Emotion  | Number of Audiofiles |
+		| ------------- | ------------- |
+		| Angry  | 652  |
+		| Fear  | 652  |
+		| Happy  | 652  |
+		| Sad  | 652  |
  	- feature sets: Zero Crossing Rate, Chroma, MFCC, Root Mean Square Value, MelSpectrogram
  	- improved by augmentation techniques: added noise, streched, shifted and pitched audio files (see jupyter training files for more details)
 	
@@ -86,27 +92,33 @@ Two separate models (audio and video) predict the emotion in parallel. The final
  - Video: 📽️
 	- analyzing video and face
 	- displaying probability of each emotion as a real-time updating bar chart
- - Multimodel: 🎧📽️
+ - Multimodal: 🎧📽️
 	- analyzing audio and video
 	- displaying video and audio probability of each emotion as a real-time updating bubble chart (no multimodality yet!)
-	- combine value
-	- react to human by displaying emoji of predicted emotion (multimodality used!)
+	- combined value (70-30)
+	- reaction to human by displaying emoji of predicted emotion (multimodality used!)
 	
 ## Results 🎯
- - Accuracy Video: 99%
- - Accuracy Audio: 
+
+ - Accuracy on test data Video: 99%
+ - Accuracy on test data Audio: 91%
+ - these accuracies are really high, but in reality, when used in a productive environment they (mainly the audio model) struggle to precisely predict emotions.
 	
  
  ## open points 📄
  
- - improve accuracy on unknown voice
- - improve server performance
- - change to multistep recognition (recognize user first and select suitable model)
- 
+ - improve accuracy on unknown voices
+ - analyse over a bigger time span to increase accuracy
+ - improve datasets with more natural/diverse situations
+ - improve server performance: change framework and architecture
+ - change to multistep recognition: recognize user first and select suitable model, include text and gestures
+
+
  ## FAQ 💡
  
  - if video recognition doesn't work: make sure the camera is not blocked by some other application (e.g. Videocalling in Zoom or Teams).
- - if the microphone doesn't work: uncomment lines 115-119 in audio_recognizer.py and check the correct index of your microphone. Adjust in line 109 (dev_index)
+ - if the microphone doesn't work: uncomment lines 101-105 in audio_recognizer.py and check the correct index of your microphone. Adjust in line 95 (dev_index)
+ - only access the server once, it will crash otherwise. Pyaudio can only handle one request at a time.
  
  
 ## License
