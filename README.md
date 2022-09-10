@@ -33,6 +33,7 @@ Two separate models (audio and video) predict the emotion in parallel. The final
 		- <a href="http://kahlan.eps.surrey.ac.uk/savee/Database.html">Surrey Audio-Visual Expressed Emotion (SAVEE) Database<a>
 		- <a href="http://emodb.bilderbar.info/docu/">Berlin Database of Emotional Speech (emo-db)<a>
 	
+	
 		| Emotion  | Number of Audiofiles |
 		| ------------- | ------------- |
 		| Angry  | 652  |
