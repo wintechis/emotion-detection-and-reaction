@@ -12,7 +12,7 @@ from joblib import load
 
 plt.switch_backend('agg')  # prepare matplotlib for usage without GUI (leads to crashes otherwise)
 scaler = load('models/std_scaler.bin')  # load pretrained SciKit StandardScaler
-model_audio = keras.models.load_model('models/SER_model_without_CREMA.h5')
+model_audio = keras.models.load_model('models/SER_model_without_CREMA_ES.h5')
 
 
 # not used at the moment

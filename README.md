@@ -32,12 +32,14 @@ Two separate models (audio and video) predict the emotion in parallel. The final
 		- <a href="https://tspace.library.utoronto.ca/handle/1807/24487">Toronto emotional speech set (TESS)<a>
 		- <a href="http://kahlan.eps.surrey.ac.uk/savee/Database.html">Surrey Audio-Visual Expressed Emotion (SAVEE) Database<a>
 		- <a href="http://emodb.bilderbar.info/docu/">Berlin Database of Emotional Speech (emo-db)<a>
+	
 		| Emotion  | Number of Audiofiles |
 		| ------------- | ------------- |
 		| Angry  | 652  |
 		| Fear  | 652  |
 		| Happy  | 652  |
 		| Sad  | 652  |
+		
  	- feature sets: Zero Crossing Rate, Chroma, MFCC, Root Mean Square Value, MelSpectrogram
  	- improved by augmentation techniques: added noise, streched, shifted and pitched audio files (see jupyter training files for more details)
 	
