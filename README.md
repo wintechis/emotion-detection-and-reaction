@@ -34,6 +34,7 @@ Two separate models (audio and video) predict the emotion in parallel. The final
 		- <a href="http://emodb.bilderbar.info/docu/">Berlin Database of Emotional Speech (emo-db)<a>
 	
 	
+	
 		| Emotion  | Number of Audiofiles |
 		| ------------- | ------------- |
 		| Angry  | 652  |
