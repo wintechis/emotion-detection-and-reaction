@@ -13,11 +13,11 @@ Two separate models (audio and video) predict the emotion in parallel. The final
 
 ## Overview 👓
 
-<a href="https://github.com/wintechis/emotion-detection-and-reaction/tree/main/FacialEmotion">Train model Audio<a>
+<a href="https://github.com/wintechis/emotion-detection-and-reaction/tree/main/SER">Train model Audio<a>
 	
 <a href="https://github.com/wintechis/emotion-detection-and-reaction/tree/main/FacialEmotion">Train model Video<a>
 	
-<a href="https://github.com/wintechis/emotion-detection-and-reaction/tree/main/SER">h5 files<a> 
+<a href="https://github.com/wintechis/emotion-detection-and-reaction/tree/main/webapp/models">h5 files<a> 
 	
 <a href="https://github.com/wintechis/emotion-detection-and-reaction/tree/main/webapp">Webapp<a> 
 
