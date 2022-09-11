@@ -3,7 +3,34 @@
 {% block body %}
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5 text-center">
-            <h1 class="display-5 fw-bold">about</h1>
+            <h1 class="display-5 fw-bold">About this project</h1>
+            <p class="fs-5 text-break">This project was developed by two students Ronja Rehm and Jan Kühlborn from the
+                Friedrich-Alexander-University Erlangen-Nürnberg (FAU) for the seminar
+                <a href="https://www.ti.rw.fau.de/courses/hot-topics-in-web-technologies-and-the-internet-of-things/"
+                   class="stretched-link text-danger" style="position: relative;">Hot Topics in Web Technologies and the
+                    Internet of Things</a>
+            </p>
+            <p class="fs-5 text-break">The goal of our topic was to develop a microservice that detects the
+                current emotion of a user based on his voice and facial expression. A camera-based application for
+                multimodal emotion detection from voice and facial expression shall be the presented at the end of the
+                semester.
+            <p class="fs-5 text-break"> We found a way to analyze an audio and video stream in Python, find
+                suitable features for the emotion recognition and train neural networks detecting emotion. Research has
+                shown that convolutional neural networks (CNNs) achieve the best accuracies and
+                performances for both streams.
+                Still, due to the very different input forms, we decided to train two separate models whose predictions
+                are then combined.
+
+            <p class="fs-5 text-break">In the following, we'll list more information about our trained models. More
+                information can also be retrieved from our <a
+                        href="https://github.com/wintechis/emotion-detection-and-reaction/blob/main/README.md"
+                        class="stretched-link text-danger" style="position: relative;">GitHub Repository</a>.</p>
+        </div>
+    </div>
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5 text-left">
+            <h1 class="display-5 fw-bold">Audio Model</h1>
             <p class="fs-5 text-break">This project was developed by Ronja Rehm and Jan Kühlborn for the FAU IIS Hot
                 Topics Seminar.</p>
             <p class="fs-5 text-break">The goal was to find a way to analyze an audio and video stream in Python, find
@@ -15,6 +42,37 @@
                 repository.</p>
         </div>
     </div>
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5 text-left">
+            <h1 class="display-5 fw-bold">Video Model</h1>
+            <p class="fs-5 text-break">
+                Python and Jupyter Notebook was used for training the model. The dataset consists of 981 48 x 48 images
+                which are face-frontal and are extracted from video sequences. 4 Emotions of the 7 provided are taken
+                into account for training the model.
+            </p>
+            <br>
+            <p class="fs-5 text-break"> Content of model:
+            </p>
+            <img src="../static/images_about/trained_model.png" alt="trained model">
+
+            <br><br><br>
+
+            <p class="fs-5 text-break"> The validated accuracy was 97% with a validated loss of 0.11.
+            </p>
+
+            <img src="../static/images_about/video_model_acc.png" alt="accuracy">
+            <img src="../static/images_about/video_model_loss.png" alt="loss">
+
+            <br><br><br>
+
+            <p class="fs-5 text-break"> The confusion matrix displays the binary classification.
+            </p>
+
+            <img src="../static/images_about/video_cm.png" alt="confusionmatrix">
+        </div>
+    </div>
+
     <div class="p-5 mb-4 bg-light rounded-5">
         <div class="container-fluid py-7">
             <h1 class="display-6 fw-bold">licenses and citations</h1>
