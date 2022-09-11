@@ -37,7 +37,8 @@ $(document).ready(function () {
         },
         yAxis: {
             min: 0,
-            gridLineWidth: 0,
+            max: 1,
+            gridLineWidth: 1,
             minorGridLineWidth: 0,
 
             title: {
