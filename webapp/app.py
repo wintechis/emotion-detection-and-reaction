@@ -47,7 +47,7 @@ def audio8():
 
 @app.route('/Video')
 def Video():
-    return render_template('Video.html')
+    return render_template('video.html')
 
 
 @app.route('/multimodal')

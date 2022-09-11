@@ -52,7 +52,6 @@ def gen_frames():  # generate frame by frame from camera
                         predictions = model.predict(final_image)
                         pred_list = predictions.tolist()
                         pred_json = json.dumps(pred_list[0])
-                        # print(pred_json)
                         with open('./video_prediction.json', 'w') as file:
                             file.write(pred_json)
 
@@ -73,25 +72,18 @@ def gen_frames():  # generate frame by frame from camera
                         # find max indexed array
 
                         max_index = np.argmax(predictions[0])
-                        with open('./highestValue.txt', 'w') as file:
-                            file.write(str(max_index))
-
                         highest_prediction_value = predictions.max(1) * 100.0
                         # print(highest_prediction_value)
 
                         emotions = ['angry', 'fear', 'happy', 'sad']
                         predicted_emotion = emotions[max_index]
-                        # print(predicted_emotion)
-                        # print(emotions[max_index])
                         display_percentage_of_emotion = str(predicted_emotion) + ": " + str(highest_prediction_value)
                         # print(display_percentage_of_emotion)
                         cv2.putText(frame, display_percentage_of_emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1,
                                     (0, 0, 255), 2)
 
                 resized_img = cv2.resize(frame, (1000, 700))
-
                 ret, buffer = cv2.imencode('.jpg', frame)
-
                 frame = buffer.tobytes()
 
                 yield (
