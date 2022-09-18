@@ -31,15 +31,21 @@
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5 text-left">
             <h1 class="display-5 fw-bold">Audio Model</h1>
-            <p class="fs-5 text-break">This project was developed by Ronja Rehm and Jan Kühlborn for the FAU IIS Hot
-                Topics Seminar.</p>
-            <p class="fs-5 text-break">The goal was to find a way to analyze an audio and video stream in Python, find
-                suitable features for the emotion recognition and train neural networks. Research has shown that
-                convolutional neural networks (CNNs) achieve the best accuracies and performances for both streams.
-                Still, due to the very different input forms, we decided to train two separate models whose predictions
-                are then combined.</p>
-            <p class="fs-5 text-break">For more information, refer to the presentation files in the GitHub
-                repository.</p>
+            <p class="fs-5 text-break">Python and Jupyter Notebook was used for training the model. The dataset consists
+                of 8 x 652 audio files
+                which are recorded by professional voice actors. 4 Emotions of the 8 provided are taken
+                into account for training the model.</p>
+            <p class="fs-5 text-break"> The validated accuracy was 91% with a validated loss of 0.4.
+            </p>
+
+            <img src="../static/images_about/audio_model_acc.png" alt="accuracy">
+
+            <br><br><br>
+
+            <p class="fs-5 text-break"> The confusion matrix displays the binary classification.
+            </p>
+
+            <img src="../static/images_about/audio_cm.png" alt="confusionmatrix">
         </div>
     </div>
 
