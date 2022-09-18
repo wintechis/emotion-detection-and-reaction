@@ -1,6 +1,10 @@
 app module
 ==========
 
+In general, the app.py module is Flasks working core. From here, all routes that shall be reachable from the frontend are defined.
+There are three different types: routes that return an html template, routes that return data such as JSON or a video stream, and a route that returns picture files.
+The working principles of the most important routes are explained in the following section.
+
 .. automodule:: app
    :members:
    :undoc-members:
@@ -8,7 +12,7 @@ app module
 
 .. py:function:: live_data()
 
-   Fetches audio predictions, updates global variables for further internal use and dumps them as JSON files on the live_data app route to be used in the frontend. This route is called from every other place where audio predictions are needed.
+   Fetches audio predictions, updates global variables for further internal use and dumps them as JSON files on the live_data app route to be used in the frontend Highchart diagrams. This route is called from every other place where audio predictions are needed.
    
 .. py:function:: live-data_video()
 

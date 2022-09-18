@@ -40,6 +40,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">webapp</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">app module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="audio_recognizer.html">audio_recognizer module</a></li>
@@ -47,6 +48,7 @@
 <li class="toctree-l2"><a class="reference internal" href="video_recognizer.html">video_recognizer module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="training.html">video_recognizer module</a></li>
 </ul>
 
         </div>
@@ -76,10 +78,13 @@
              
   <section id="app-module">
 <h1>app module<a class="headerlink" href="#app-module" title="Permalink to this heading"></a></h1>
+<p>In general, the app.py module is Flasks working core. From here, all routes that shall be reachable from the frontend are defined.
+There are three different types: routes that return an html template, routes that return data such as JSON or a video stream, and a route that returns picture files.
+The working principles of the most important routes are explained in the following section.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="live_data">
 <span class="sig-name descname"><span class="pre">live_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#live_data" title="Permalink to this definition"></a></dt>
-<dd><p>Fetches audio predictions, updates global variables for further internal use and dumps them as JSON files on the live_data app route to be used in the frontend. This route is called from every other place where audio predictions are needed.</p>
+<dd><p>Fetches audio predictions, updates global variables for further internal use and dumps them as JSON files on the live_data app route to be used in the frontend Highchart diagrams. This route is called from every other place where audio predictions are needed.</p>
 </dd></dl>
 
 <dl class="py function">

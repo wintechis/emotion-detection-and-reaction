@@ -67,7 +67,7 @@ def live_data():
 
 @app.route('/live-data8')
 def live_data8():
-    """ echo audio predictions as JSON"""
+    """ echo audio predictions as JSON for 8 emotions"""
     global audio_emotion_8
     data = audio_recognizer8.analyze_audio()
     audio_emotion_8 = data
