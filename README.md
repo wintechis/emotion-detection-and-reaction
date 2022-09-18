@@ -77,14 +77,15 @@ Two separate models (audio and video) predict the emotion in parallel. The final
 	- Pyaudio
 	- Librosa
 
-## Requirements and installation instructions 
+## Requirements and installation instructions / Tutorial
 
  - a <a href="https://www.python.org/downloads/">python installation<a> is necessary (at least V3.7)
  - a working webcam and microphone is necessary. The input ports should be detected automatically.
  - git clone the repo
  - install the dependencies from requirements.txt (pip install -r requirements.txt)
- - run the app.py file
- - open localhost <a href="https://127.0.0.1:5000/">127.0.0.1:5000/<a> on your favorite web browser. 
+ - run the app.py file and wait until the server is started and ready. This can take up to 2 minutes
+ - open localhost <a href="https://127.0.0.1:5000/">127.0.0.1:5000/<a> on your favorite web browser
+ - the usage of the application is self-explanatory
  
  ## Features
  

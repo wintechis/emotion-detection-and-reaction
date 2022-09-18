@@ -1,5 +1,6 @@
 #   Python file containing the processing logic for FER analysis tasks
 #   returns a video stream and a json array of probabilities
+#   Author: Ronja Rehm
 
 import cv2
 import numpy as np
@@ -25,7 +26,6 @@ def gen_frames():  # generate frame by frame from camera
             else:
                 frame = np.array(frame)
                 gray_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
                 faces_detected = face_haar_cascade.detectMultiScale(gray_img, 1.1, 4)
 
                 for (x, y, w, h) in faces_detected:
@@ -66,12 +66,10 @@ def gen_frames():  # generate frame by frame from camera
                         cv2.putText(frame, display_percentage_of_emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1,
                                     (0, 0, 255), 2)
 
-                resized_img = cv2.resize(frame, (1000, 700))
                 ret, buffer = cv2.imencode('.jpg', frame)
                 frame = buffer.tobytes()
 
-                yield (
-                        b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+                yield b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'  # concat frame one by one and show result
 
         except Exception as e:
             print(str(e))

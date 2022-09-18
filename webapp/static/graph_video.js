@@ -1,7 +1,7 @@
 var chart;
 
 /**
- * Request data from the server, add it to the graph and set a timeout
+ * Request data from the server, update the graph and set a timeout
  * to request again
  */
 function requestData() {
@@ -30,7 +30,7 @@ $(document).ready(function () {
             text: 'Video Recognition'
         },
         xAxis: {
-            categories: ['angry', 'fear', 'happy', 'sad'],
+            categories: ['angry', 'fearful', 'happy', 'sad'],
             labels: {
                 x: -10
             }

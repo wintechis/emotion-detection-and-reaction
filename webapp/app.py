@@ -4,7 +4,7 @@
 #
 ###################################################################################
 
-from flask import Flask, render_template, Response, make_response, send_file, send_from_directory
+from flask import Flask, render_template, Response, make_response, send_file
 import audio_recognizer
 import audio_recognizer8
 import json
@@ -37,28 +37,27 @@ def about():
 
 @app.route('/audio')
 def audio():
-    return render_template('audio.html', data='test')
+    return render_template('audio.html')
 
 
 @app.route('/audio8')
 def audio8():
-    return render_template('audio_8emotions.html', data='test')
+    return render_template('audio_8emotions.html')
 
 
-@app.route('/Video')
-def Video():
+@app.route('/video')
+def video():
     return render_template('video.html')
 
 
 @app.route('/multimodal')
 def multimodal():
-
-    return render_template('multimodal.html', )
+    return render_template('multimodal.html')
 
 
 @app.route('/live-data')
 def live_data():
-    # echo audio predictions as JSON
+    """ echo audio predictions as JSON"""
     global audio_emotion
     data = audio_recognizer.analyze_audio()
     audio_emotion = data
@@ -68,7 +67,7 @@ def live_data():
 
 @app.route('/live-data8')
 def live_data8():
-    # echo audio predictions as JSON
+    """ echo audio predictions as JSON"""
     global audio_emotion_8
     data = audio_recognizer8.analyze_audio()
     audio_emotion_8 = data
@@ -79,7 +78,7 @@ def live_data8():
 
 @app.route('/live-data_video')
 def live_data_video():
-    # Create a PHP array and echo it as JSON
+    """ echo video predictions as JSON"""
     f = open('video_prediction.json')
     data = json.load(f)
     response = make_response(json.dumps(data))
@@ -89,31 +88,27 @@ def live_data_video():
 
 @app.route('/live-data_multi')
 def live_data_multi():
-    # Create a PHP array and echo it as JSON
+    """ This function is called from graph_multi.js that updates the multimodal diagram.
+    It fetches predictions, updates global variables and returns a multimodal prediction. """
     global multi_emotion
     f = open('video_prediction.json')
-    data = json.load(f)
-    data2 = audio_recognizer.analyze_audio()
-
-
+    video_data = json.load(f)
+    audio_data = audio_recognizer.analyze_audio()
     newdict = [{"name": "Video",
-                "data": [{"name": "Angry", "value": round(data[0] * 100, 2)},
-                         {"name": "Fear", "value": round(data[1] * 100, 2)},
-                         {"name": "Happy", "value": round(data[2] * 100, 2)},
-                         {"name": "Sad", "value": round(data[3] * 100, 2)}]},
+                "data": [{"name": "Angry", "value": round(video_data[0] * 100, 2)},
+                         {"name": "Fearful", "value": round(video_data[1] * 100, 2)},
+                         {"name": "Happy", "value": round(video_data[2] * 100, 2)},
+                         {"name": "Sad", "value": round(video_data[3] * 100, 2)}]},
                {"name": "Audio",
-                "data": [{"name": "Angry", "value": round(data2[0] * 100, 2)},
-                         {"name": "Fear", "value": round(data2[1] * 100, 2)},
-                         {"name": "Happy", "value": round(data2[2] * 100, 2)},
-                         {"name": "Sad", "value": round(data2[3] * 100, 2)}]}]
-
-    print(newdict)
-
-    data3 = []
-    data = np.array(data)
-    for index in range(len(data2)):
-        data3.append(0.7 * data[index] + 0.3 * data2[index])
-    multi_emotion = data3
+                "data": [{"name": "Angry", "value": round(audio_data[0] * 100, 2)},
+                         {"name": "Fearful", "value": round(audio_data[1] * 100, 2)},
+                         {"name": "Happy", "value": round(audio_data[2] * 100, 2)},
+                         {"name": "Sad", "value": round(audio_data[3] * 100, 2)}]}]
+    multimodal_data = []
+    video_data = np.array(video_data)
+    for i in range(len(audio_data)):
+        multimodal_data.append(0.7 * video_data[i] + 0.3 * audio_data[i])
+    multi_emotion = multimodal_data
 
     response = make_response(json.dumps(newdict))
     response.content_type = 'application/json'
@@ -122,19 +117,22 @@ def live_data_multi():
 
 @app.route('/spectrogram')
 def spectrogram():
+    """ returns diagrams that are updated by audio_recognizer.py"""
     return send_file('diagrams\\MelSpec.png', mimetype='image/png')
 
 
 @app.route('/waveplot')
 def waveplot():
+    """ returns diagrams that are updated by audio_recognizer.py"""
     return send_file('diagrams\\Waveplot.png', mimetype='image/png')
 
 
 @app.route('/emotion')
 def emotion():
+    """ returns emotion picture based on predictions """
     try:
         data = audio_emotion
-    except NameError:
+    except NameError:   # catches events while starting when no data exists yet
         data = [0.0, 0.0, 0.0, 0.0]
     print('audio array: ', data)
     if np.argmax(data) == 0:
@@ -196,4 +194,4 @@ def multi_emotion():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

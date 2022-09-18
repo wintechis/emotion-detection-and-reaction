@@ -8,30 +8,17 @@ import librosa.display
 import pyaudio
 import wave
 import matplotlib.pyplot as plt
-plt.switch_backend('agg')
 from joblib import load
 
+plt.switch_backend('agg')  # prepare matplotlib for usage without GUI (leads to crashes otherwise)
 scaler = load('models/std_scaler_8.bin')  # load pretrained SciKit StandardScaler
 model_audio = keras.models.load_model('models/SER_model_all8_without_CREMA.h5')
 
 
-def noise(data):
-    noise_amp = 0.035*np.random.uniform()*np.amax(data)
-    data = data + noise_amp*np.random.normal(size=data.shape[0])
-    return data
-
-
-def stretch(data):
-    return librosa.effects.time_stretch(data, rate=0.8)
-
-
+# not used at the moment
 def shift(data):
     shift_range = int(np.random.uniform(low=-5, high=5)*1000)
     return np.roll(data, shift_range)
-
-
-def pitch(data, sampling_rate):
-    return librosa.effects.pitch_shift(data, sr=44100, n_steps=0.7)
 
 
 # main functions
@@ -79,6 +66,7 @@ def extract_audio_features(data, sample_rate):
     return result
 
 
+# feature extraction: inputs audio snippet and returns stacked feature array
 def get_audio_features(path):
     data, sample_rate = librosa.load(path)
 
@@ -87,13 +75,14 @@ def get_audio_features(path):
     result = np.array(res1)
 
     # data with noise
-    noise_data = noise(data)
+    noise_amp = 0.035 * np.random.uniform() * np.amax(data)
+    noise_data = data + noise_amp * np.random.normal(size=data.shape[0])
     res2 = extract_audio_features(noise_data, sample_rate)
     result = np.vstack((result, res2))  # stacking vertically
 
     # data with stretching and pitching
-    new_data = stretch(data)
-    data_stretch_pitch = pitch(new_data, sample_rate)
+    new_data = librosa.effects.time_stretch(data, rate=0.8)
+    data_stretch_pitch = librosa.effects.pitch_shift(new_data, sr=44100, n_steps=0.7)
     res3 = extract_audio_features(data_stretch_pitch, sample_rate)
     result = np.vstack((result, res3))  # stacking vertically
 
@@ -102,15 +91,13 @@ def get_audio_features(path):
 
 # driver function: returns prediction
 def analyze_audio():
-
-#while True:
     samp_rate = 44100  # 44.1kHz sampling rate
     chunk = 4096  # 2^12 samples for buffer
     record_secs = 3  # seconds to record
     dev_index = 1  # device index found by p.get_device_info_by_index(ii)
     wav_output_filename = 'temp_audio.wav'  # name of .wav file
 
-    # check input devices
+    # check input devices. Uncomment to print device indices to commandline
     audio = pyaudio.PyAudio()
     #info = audio.get_host_api_info_by_index(0)
     #numdevices = info.get('deviceCount')

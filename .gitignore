@@ -17,3 +17,7 @@ webapp/.idea
 SER/Archiv/
 Archive/
 Paper/
+/webapp/conf.py
+/webapp/index.rst
+/webapp/make.bat
+/webapp/Makefile

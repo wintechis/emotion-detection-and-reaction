@@ -1,5 +1,6 @@
 #   Python file containing the processing logic for SER analysis tasks
 #   returns an array of class probabilities
+#   Author: Jan Kühlborn
 
 from tensorflow import keras
 import numpy as np
@@ -65,6 +66,7 @@ def extract_audio_features(data, sample_rate):
     return result
 
 
+# feature extraction: inputs audio snippet and returns stacked feature array
 def get_audio_features(path):
     data, sample_rate = librosa.load(path)
 
