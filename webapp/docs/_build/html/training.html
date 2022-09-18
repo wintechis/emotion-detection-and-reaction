@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>video_recognizer module &mdash; Multimodal Emotion Detection V1 documentation</title>
+  <title>Training &mdash; Multimodal Emotion Detection V1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -41,7 +41,11 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">webapp</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">video_recognizer module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Training</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ser-training">SER Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fer-training">FER Training</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -58,7 +62,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>video_recognizer module</li>
+      <li>Training</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/training.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -68,11 +72,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="video-recognizer-module">
-<h1>video_recognizer module<a class="headerlink" href="#video-recognizer-module" title="Permalink to this heading"></a></h1>
-<p>The video recognizer consists of on function <code class="docutils literal notranslate"><span class="pre">gen_frames()</span></code> and a while-loop that generates and returns the videostream with overlays using the CV2 library.
-A function can only return one object, but we need the videostream and the predictions. Due to Flasks security restrictions, we can’t use a global variable here.
-To solve this, the predictions are saved to a JSON file and constantly updated during runtime.</p>
+  <section id="training">
+<h1>Training<a class="headerlink" href="#training" title="Permalink to this heading"></a></h1>
+<p>The training files can be found in the FacialEmotion and SER subfolders. You will find Jupyter Notebook files, diagrams and all results. The training data files are NOT provided but referenced in GitHubs ReadMe file.</p>
+<section id="ser-training">
+<h2>SER Training<a class="headerlink" href="#ser-training" title="Permalink to this heading"></a></h2>
+<p>please refer to the jupyter notebook files and their annotated code</p>
+</section>
+<section id="fer-training">
+<h2>FER Training<a class="headerlink" href="#fer-training" title="Permalink to this heading"></a></h2>
+<p>please refer to the jupyter notebook files and their annotated code</p>
+</section>
 </section>
 
 

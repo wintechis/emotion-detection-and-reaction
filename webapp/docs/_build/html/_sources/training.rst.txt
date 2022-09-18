@@ -1,11 +1,14 @@
-video\_recognizer module
-========================
+Training
+========
 
-The video recognizer consists of on function ``gen_frames()`` and a while-loop that generates and returns the videostream with overlays using the CV2 library.
-A function can only return one object, but we need the videostream and the predictions. Due to Flasks security restrictions, we can't use a global variable here.
-To solve this, the predictions are saved to a JSON file and constantly updated during runtime.
+The training files can be found in the FacialEmotion and SER subfolders. You will find Jupyter Notebook files, diagrams and all results. The training data files are NOT provided but referenced in GitHubs ReadMe file.
 
-.. automodule:: video_recognizer
-   :members:
-   :undoc-members:
-   :show-inheritance:
+
+SER Training
+------------
+please refer to the jupyter notebook files and their annotated code
+
+
+FER Training
+------------
+please refer to the jupyter notebook files and their annotated code
